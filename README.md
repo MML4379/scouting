@@ -1,0 +1,2 @@
+# scouting
+Scouting Website
