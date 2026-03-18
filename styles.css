@@ -1,0 +1,38 @@
+body {
+    background-color: rgb(0, 0, 0);
+}
+.zen-dots-regular {
+  font-family: "Zen Dots", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.sn-pro {
+  font-family: "SN Pro", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 5px;
+  font-style: normal;
+}
+p1 {
+    color: rgb(65, 105, 255);
+    font-size: 8vmin;
+}
+p2 {
+    color: white;
+    font-size: 3.5vmin;
+}
+a {
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    padding: 2px;
+    background-color: rgb(65,105,255);
+    font-size: 5vmin;
+}
+table {
+    border:5px solid rgb(65, 105, 255);
+    border-collapse:separate;
+}
+th, td {
+    border: 5px solid white;
+}
