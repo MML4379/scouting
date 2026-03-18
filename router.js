@@ -7,7 +7,7 @@ export const navigateTo = url => {
 
 export const router = async () => {
     const routes = [
-        { path: '/', view: Home() }
+        { path: '/scouting', view: Home() }
     ];
 
     const potentialMatches = routes.map(route => ({
