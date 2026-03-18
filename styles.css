@@ -34,5 +34,8 @@ table {
     border-collapse:separate;
 }
 th, td {
-    border: 5px solid white;
+    border: 5px solid rgb(155, 155, 155);
+    border-radius: 5px;
+    color: black;
+    background-color: white;
 }
