@@ -2,7 +2,16 @@ export default function Home() {
     return (
         `
             <div class="page">
-                <h1>Hello World!</h1>
+                <table>
+                    <th>what</th>
+                    <th>what 2</th>
+                    <th>what 3</th>
+                    <tr>
+                        <td>cool</td>
+                        <td>w</td>
+                        <td>w</td>
+                    </tr>
+                </table>
             </div>
         `
     )
