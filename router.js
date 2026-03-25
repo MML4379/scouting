@@ -7,7 +7,7 @@ export const navigateTo = url => {
 
 export const router = async () => {
     const routes = [
-        { path: '/scouting', view: Home() }
+        { path: '/scouting', view: Home() } // index path for github pages
     ];
 
     const potentialMatches = routes.map(route => ({
@@ -27,4 +27,4 @@ export const router = async () => {
 
     // inject view into dom
     document.getElementById('app').innerHTML = match.route.view;
-};//
+};
