@@ -9,7 +9,10 @@
     font-feature-settings: 'liga' 1, 'calt' 1; /* FOR CHROME */
 }
 @supports (font-variation-settings: normal) {
-    :root {
-        font-family: InterVariable, sans-serif;
-    }
+    :root { font-family: InterVariable, sans-serif; }
+}
+
+body, .app {
+    margin: 0;
+    padding: 0;
 }
