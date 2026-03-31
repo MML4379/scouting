@@ -1,3 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+:root {
+    --background: #0a0a0a;
+    --surface: #131313;
+    --surface-2: #1c1c1c;
+    --border: #262626;
+    --foreground: #f0f0f0;
+    --foreground-2: #a0a0a0;
+    --muted: #555;
+    --blue: #0264dd;
+    --orange: #f2bb29;
+    --orange-dim: rgba(242, 187, 41, 0.06);
+    --red: #dd0404;
+
+    font-family: 'DM Sans', sans-serif;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body, .app {
+    margin: 0;
+    padding: 0;
+    background: var(--background);
+    color: var(--foreground);
+    min-height: 100vh;
+}
+
+/* ── Navbar ── */
+.navbar {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 0 2rem;
+    height: 56px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar-brand {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--foreground);
+    text-decoration: none;
+    margin-right: auto;
+    letter-spacing: -0.01em;
+}
+
+.navbar-brand span {
+    color: var(--orange);
+}
+
+.navbar a {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--foreground-2);
+    text-decoration: none;
+    transition: color 0.15s;
+}
+
+.navbar a:hover,
+.navbar a.active {
+    color: var(--foreground);
+}
+
+/* ── Page ── */
+.page {
+    padding: 2.5rem 2rem;
+    max-width: 1300px;
+    margin: 0 auto;
+    animation: fadeIn 0.25s ease both;
+    overflow: hidden; /* prevent page itself from scrolling */
+}
+
+.page-header {
+    margin-bottom: 1.5rem;
+}
+
+.page-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin: 0 0 0.25rem;
+}
+
+.page-subtitle {
+    font-size: 0.875rem;
+    color: var(--foreground-2);
+    margin: 0;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Table wrapper ── */
+.table-wrap {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: auto;          /* handles both X and Y */
+    max-height: calc(100vh - 56px - 5rem); /* viewport minus navbar and page padding */
+}
+
+/* ── Table ── */
+.sn-pro {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+}
+
+.sn-pro thead tr {
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+}
+
+.sn-pro th {
+    padding: 0.75rem 1.25rem;
+    text-align: left;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--foreground-2);
+    white-space: nowrap;
+}
+
+.sn-pro td {
+    padding: 0.75rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--foreground);
+}
+
+.sn-pro tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.sn-pro tbody tr:hover {
+    background: var(--surface-2);
+}
+
+/* Team number column */
+.sn-pro td:first-child {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--orange);
+}
+
+/* NULL / empty */
+.null-cell {
+    color: var(--muted) !important;
+    font-style: italic;
+    font-size: 0.8rem;
+}
+
+/* ── States ── */
+.state-msg {
+    font-size: 0.875rem;
+    color: var(--foreground-2);
+    padding: 4rem 0;
+    text-align: center;
+}
+
+.state-msg.error { color: var(--red); }
+
 /* ── Search ── */
 .search-bar {
     margin-bottom: 1rem;
