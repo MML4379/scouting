@@ -195,3 +195,134 @@ body, .app {
 .search-bar input:focus {
     border-color: var(--orange);
 }
+
+/* ── Match Reports ── */
+.event-section {
+    margin-bottom: 2.5rem;
+}
+
+.event-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.event-name {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.event-meta {
+    font-size: 0.8rem;
+    color: var(--foreground-2);
+    margin-top: 0.2rem;
+}
+
+.event-key {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    padding: 0.2rem 0.5rem;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+.match-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 0.75rem;
+}
+
+/* ── Match Card ── */
+.match-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: border-color 0.15s;
+}
+
+.match-card:hover {
+    border-color: var(--orange);
+}
+
+.match-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 0.875rem;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+}
+
+.match-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--foreground-2);
+    font-family: 'DM Mono', monospace;
+}
+
+.result-tag {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    letter-spacing: 0.04em;
+}
+
+.result-tag.win  { background: rgba(34,197,94,0.15); color: #22c55e; }
+.result-tag.loss { background: rgba(221,4,4,0.15);   color: var(--red); }
+.result-tag.tie  { background: rgba(160,160,160,0.1); color: var(--muted); }
+.result-tag.pending { color: var(--muted); }
+
+/* ── Alliances ── */
+.match-alliances {
+    display: flex;
+    flex-direction: column;
+}
+
+.alliance-block {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0.875rem;
+    border-left: 3px solid transparent;
+}
+
+.alliance-block.red  { border-color: #dd0404; }
+.alliance-block.blue { border-color: #0264dd; }
+.alliance-block.won  { background: var(--orange-dim); }
+
+.alliance-teams {
+    display: flex;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+}
+
+.team-pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+}
+
+.team-pill.red  { background: rgba(221,4,4,0.12);   color: #f87171; }
+.team-pill.blue { background: rgba(2,100,221,0.12);  color: #60a5fa; }
+.team-pill.us   { outline: 1px solid var(--orange);  color: var(--orange); }
+
+.alliance-score {
+    font-family: 'DM Mono', monospace;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--foreground);
+    min-width: 2.5rem;
+    text-align: right;
+}
