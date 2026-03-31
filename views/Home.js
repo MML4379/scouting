@@ -22,10 +22,12 @@ export default async function Home() {
 
     return `
         <div class="page">
-            <table class="sn-pro">
-                <thead><tr>${headerRow}</tr></thead>
-                <tbody>${bodyRows}</tbody>
-            </table>
+            <div class="table-wrap">
+                <table class="sn-pro">
+                    <thead><tr>${headerRow}</tr></thead>
+                    <tbody>${bodyRows}</tbody>
+                </table>
+            </div>
         </div>
     `;
 }
