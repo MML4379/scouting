@@ -168,3 +168,30 @@ body, .app {
 }
 
 .state-msg.error { color: var(--red); }
+
+/* ── Search ── */
+.search-bar {
+    margin-bottom: 1rem;
+}
+
+.search-bar input {
+    width: 100%;
+    max-width: 360px;
+    padding: 0.5rem 0.875rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--foreground);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem;
+    outline: none;
+    transition: border-color 0.15s;
+}
+
+.search-bar input::placeholder {
+    color: var(--muted);
+}
+
+.search-bar input:focus {
+    border-color: var(--orange);
+}
