@@ -74,6 +74,7 @@ body, .app {
     max-width: 1300px;
     margin: 0 auto;
     animation: fadeIn 0.25s ease both;
+    overflow: hidden; /* prevent page itself from scrolling */
 }
 
 .page-header {
@@ -102,8 +103,8 @@ body, .app {
 .table-wrap {
     border: 1px solid var(--border);
     border-radius: 8px;
-    overflow: hidden;
-    overflow-x: auto;
+    overflow: auto;          /* handles both X and Y */
+    max-height: calc(100vh - 56px - 5rem); /* viewport minus navbar and page padding */
 }
 
 /* ── Table ── */
