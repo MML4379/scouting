@@ -3,6 +3,7 @@ import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 
 const url = "https://zczcyfyrltmgokklvhkz.supabase.co";
 const key = "sb_publishable_qOA9FqZ4_OByDK4_QPlp9g_Dd4i2xe9";
+const tbakey = "0n75QTuNDDuPGQ42UG8GDbxmVlPGtCMnd67fSCcH04AgVMSWwgJPCdtRwjiKYO9b";
 
 export const supabase = createClient(url, key); // moved outside, exported
 
