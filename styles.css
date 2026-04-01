@@ -326,3 +326,177 @@ body, .app {
     min-width: 2.5rem;
     text-align: right;
 }
+
+/* ── Team pill clickable state ── */
+.team-pill {
+    cursor: default;
+}
+
+.team-pill.has-data {
+    cursor: pointer;
+    text-decoration: underline dotted;
+}
+
+.team-pill.has-data:hover {
+    filter: brightness(1.3);
+}
+
+/* ── Match header clickable ── */
+.match-card-header.clickable {
+    cursor: pointer;
+}
+
+.match-card-header.clickable:hover {
+    background: var(--surface);
+}
+
+/* ── Modal backdrop ── */
+.modal-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+}
+
+.modal-backdrop.open {
+    display: flex;
+}
+
+/* ── Modal box ── */
+.modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    width: 100%;
+    max-width: 860px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: fadeIn 0.2s ease both;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.875rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface-2);
+    flex-shrink: 0;
+}
+
+.modal-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    transition: color 0.15s, background 0.15s;
+}
+
+.modal-close:hover {
+    color: var(--foreground);
+    background: var(--border);
+}
+
+/* ── Modal body ── */
+.modal-body {
+    overflow-y: auto;
+    padding: 1.25rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.modal-section-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--foreground-2);
+    margin-bottom: 0.5rem;
+}
+
+.modal-table-wrap {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: auto;
+    max-height: 240px;
+}
+
+.modal-table {
+    font-size: 0.8rem;
+}
+
+.mono {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+}
+
+/* ── Match modal alliance blocks ── */
+.alliance-modal-block {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 1.25rem;
+}
+
+.alliance-modal-block.red  { border-color: rgba(221, 4, 4, 0.4); }
+.alliance-modal-block.blue { border-color: rgba(2, 100, 221, 0.4); }
+.alliance-modal-block.won  { background: var(--orange-dim); }
+
+.alliance-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+}
+
+.alliance-modal-block.red  .alliance-modal-header { background: rgba(221,4,4,0.1); color: #f87171; }
+.alliance-modal-block.blue .alliance-modal-header { background: rgba(2,100,221,0.1); color: #60a5fa; }
+
+.alliance-modal-score {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.9rem;
+}
+
+/* ── Per-team blocks inside match modal ── */
+.match-team-block {
+    padding: 0.875rem 1rem;
+    border-top: 1px solid var(--border);
+}
+
+.match-team-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+}
+
+.match-team-label.red  { color: #f87171; }
+.match-team-label.blue { color: #60a5fa; }
+
+.no-scout {
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-style: italic;
+    margin: 0;
+}

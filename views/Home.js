@@ -46,7 +46,6 @@ export default async function Home() {
         <div class="page">
             <div class="page-header">
                 <h1 class="page-title">Scout Sheet</h1>
-                <p class="page-subtitle">Live data from Supabase</p>
             </div>
             <div class="search-bar">
                 <input
