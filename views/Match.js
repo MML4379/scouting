@@ -333,7 +333,7 @@ function bindEvents(allMatches, scoutRows) {
 // ── Main export ─────────────────────────────────────────────────
 export default async function MatchReports() {
     try {
-        const events = await tba(`/team/${TEAM}/events/2025`);
+        const events = await tba(`/team/${TEAM}/events/2026`);
         events.sort((a, b) => new Date(a.start_date) - new Date(b.start_date));
 
         const matchResults = await Promise.all(
@@ -363,7 +363,7 @@ export default async function MatchReports() {
             <div class="page">
                 <div class="page-header">
                     <h1 class="page-title">Match Reports</h1>
-                    <p class="page-subtitle">Team 7250 · 2025 Season</p>
+                    <p class="page-subtitle">Team 7250 · 2026 Season</p>
                 </div>
                 ${sections || `<p class="state-msg">No events found for this season.</p>`}
             </div>
