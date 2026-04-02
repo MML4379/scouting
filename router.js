@@ -1,5 +1,6 @@
 import Home from "./views/Home.js";
 import MatchReports from "./views/Match.js";
+import ScoutEntry from "./views/ScoutEntry.js";
 
 export const navigateTo = url => {
     history.pushState(null, null, url);
@@ -9,7 +10,8 @@ export const navigateTo = url => {
 export const router = async () => {
     const routes = [
         { path: '/scouting', view: Home() }, // index path for github pages
-        { path: '/scouting/match', view: MatchReports() }
+        { path: '/scouting/match', view: MatchReports() },
+        { path: '/scouting/add', view: ScoutEntry() },
     ];
 
     const potentialMatches = routes.map(route => ({
