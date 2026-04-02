@@ -500,3 +500,540 @@ body, .app {
     font-style: italic;
     margin: 0;
 }
+
+/* ── Form wrapper ── */
+.scout-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 760px;
+}
+
+/* ── Meta bar (team / match / scouter) ── */
+.scout-meta-bar {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1.5fr;
+    gap: 0.75rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+}
+
+.scout-meta-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+/* ── Section card ── */
+.scout-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.scout-section-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--foreground-2);
+    padding: 0.6rem 1.25rem;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+}
+
+.scout-fields {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 0;
+}
+
+/* ── Individual field cell ── */
+.scout-field {
+    padding: 0.875rem 1.25rem;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+/* last column in each row – no right border (visual only) */
+.scout-field:last-child {
+    border-right: none;
+}
+
+/* full-width for textarea */
+.scout-field--full {
+    grid-column: 1 / -1;
+    border-right: none;
+}
+
+/* no bottom border on last row */
+.scout-fields > .scout-field:last-child,
+.scout-fields > .scout-field--full:last-child {
+    border-bottom: none;
+}
+
+/* ── Labels ── */
+.scout-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--foreground-2);
+    white-space: nowrap;
+}
+
+/* ── Text / number inputs ── */
+.scout-input {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--foreground);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem;
+    padding: 0.45rem 0.75rem;
+    outline: none;
+    transition: border-color 0.15s;
+    width: 100%;
+}
+
+.scout-input::placeholder { color: var(--muted); }
+.scout-input:focus        { border-color: var(--orange); }
+
+/* ── Select ── */
+.scout-select {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--foreground);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem;
+    padding: 0.45rem 0.75rem;
+    outline: none;
+    transition: border-color 0.15s;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23555' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    padding-right: 2rem;
+}
+
+.scout-select--team {
+    width: 100%;
+}
+
+.scout-select:focus { border-color: var(--orange); }
+
+/* ── Textarea ── */
+.scout-textarea {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--foreground);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+    outline: none;
+    resize: vertical;
+    transition: border-color 0.15s;
+    width: 100%;
+}
+
+.scout-textarea::placeholder { color: var(--muted); }
+.scout-textarea:focus         { border-color: var(--orange); }
+
+/* ── Counter ── */
+.counter-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.counter-btn {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    color: var(--foreground);
+    font-size: 1rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.12s, border-color 0.12s, color 0.12s;
+    -webkit-user-select: none;
+    user-select: none;
+    flex-shrink: 0;
+}
+
+.counter-btn:hover {
+    background: var(--border);
+    border-color: var(--orange);
+    color: var(--orange);
+}
+
+.counter-btn:active {
+    transform: scale(0.93);
+}
+
+.counter-val {
+    font-family: 'DM Mono', monospace;
+    font-size: 1rem;
+    font-weight: 500;
+    min-width: 1.75rem;
+    text-align: center;
+    color: var(--foreground);
+}
+
+/* ── Toggle (checkbox) ── */
+.scout-field--checkbox {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.toggle-wrap {
+    position: relative;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+}
+
+.toggle-wrap input[type="checkbox"] {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+}
+
+.toggle-track {
+    width: 40px;
+    height: 22px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    position: relative;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.toggle-thumb {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 14px;
+    height: 14px;
+    background: var(--muted);
+    border-radius: 50%;
+    transition: transform 0.2s, background 0.2s;
+}
+
+.toggle-wrap input:checked + .toggle-track {
+    background: rgba(242, 187, 41, 0.15);
+    border-color: var(--orange);
+}
+
+.toggle-wrap input:checked + .toggle-track .toggle-thumb {
+    transform: translateX(18px);
+    background: var(--orange);
+}
+
+/* ── Action bar ── */
+.scout-actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+    padding-top: 0.5rem;
+}
+
+/* ── Buttons ── */
+.btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    padding: 0.55rem 1.25rem;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, color 0.15s, opacity 0.15s;
+    letter-spacing: 0.01em;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-primary {
+    background: var(--orange);
+    color: #0a0a0a;
+    border-color: var(--orange);
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: #f5c842;
+    border-color: #f5c842;
+}
+
+.btn-ghost {
+    background: transparent;
+    color: var(--foreground-2);
+    border-color: var(--border);
+}
+
+.btn-ghost:hover:not(:disabled) {
+    background: var(--surface-2);
+    color: var(--foreground);
+}
+
+/* ── Toast notification ── */
+.scout-toast {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    padding: 0.65rem 1.1rem;
+    border-radius: 7px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    z-index: 999;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.2s, transform 0.2s;
+    max-width: 320px;
+}
+
+.scout-toast.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.scout-toast.success {
+    background: rgba(34, 197, 94, 0.15);
+    border: 1px solid rgba(34, 197, 94, 0.35);
+    color: #22c55e;
+}
+
+.scout-toast.error {
+    background: rgba(221, 4, 4, 0.15);
+    border: 1px solid rgba(221, 4, 4, 0.35);
+    color: var(--red);
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+    .scout-meta-bar {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .scout-meta-bar .scout-meta-field:first-child {
+        grid-column: 1 / -1;
+    }
+
+    .scout-fields {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* ── Full-page auth layout ── */
+.auth-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: var(--background);
+    /* subtle grid texture */
+    background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 40px 40px;
+}
+
+/* ── Card ── */
+.auth-card {
+    width: 100%;
+    max-width: 400px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    animation: fadeIn 0.25s ease both;
+    /* orange glow on the card */
+    box-shadow: 0 0 0 1px var(--border), 0 8px 40px rgba(242, 187, 41, 0.06);
+}
+
+/* ── Brand ── */
+.auth-brand {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.auth-brand-number { color: var(--orange); }
+.auth-brand-dot    { color: var(--muted); }
+.auth-brand-name   { color: var(--foreground); }
+
+.auth-tagline {
+    font-size: 0.8rem;
+    color: var(--foreground-2);
+    margin: -0.75rem 0 0;
+}
+
+/* ── Tabs ── */
+.auth-tabs {
+    display: flex;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 3px;
+    gap: 3px;
+}
+
+.auth-tab {
+    flex: 1;
+    background: none;
+    border: none;
+    border-radius: 5px;
+    padding: 0.45rem 0;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--foreground-2);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+}
+
+.auth-tab.active {
+    background: var(--surface);
+    color: var(--foreground);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.auth-tab:not(.active):hover {
+    color: var(--foreground);
+}
+
+/* ── Form wrapper ── */
+.auth-form-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+}
+
+.auth-form-wrap.hidden {
+    display: none;
+}
+
+/* ── Fields ── */
+.auth-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.auth-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--foreground-2);
+}
+
+.auth-input {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--foreground);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    padding: 0.55rem 0.75rem;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    width: 100%;
+}
+
+.auth-input::placeholder { color: var(--muted); }
+
+.auth-input:focus {
+    border-color: var(--orange);
+    box-shadow: 0 0 0 3px rgba(242, 187, 41, 0.1);
+}
+
+/* ── Submit button ── */
+.auth-submit {
+    width: 100%;
+    margin-top: 0.25rem;
+    padding: 0.65rem;
+    background: var(--orange);
+    color: #0a0a0a;
+    border: none;
+    border-radius: 7px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.01em;
+    transition: background 0.15s, opacity 0.15s, transform 0.1s;
+}
+
+.auth-submit:hover:not(:disabled) {
+    background: #f5c842;
+}
+
+.auth-submit:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+.auth-submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.page-header-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.auth-status {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-shrink: 0;
+}
+
+.auth-user-pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--foreground-2);
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    padding: 0.25rem 0.65rem;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* smaller ghost button variant */
+.btn-sm {
+    padding: 0.3rem 0.75rem;
+    font-size: 0.8rem;
+}
