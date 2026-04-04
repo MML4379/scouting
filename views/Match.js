@@ -52,34 +52,46 @@ export default async function Match() {
                 tba(`/team/${TEAM}/districts`)
             ]);
 
-            // Calculate overall record, RP, Avg Score
-            let totalWins = 0, totalLosses = 0, totalTies = 0, totalRP = 0;
+            // Calculate overall record (Quals + Playoffs)
+            let totalWins = 0, totalLosses = 0, totalTies = 0;
             
             Object.values(statuses || {}).forEach(status => {
-                if (status && status.qual) {
+                if (!status) return;
+
+                // 1. Add Qualification Record
+                if (status.qual && status.qual.ranking && status.qual.ranking.record) {
                     totalWins += status.qual.ranking.record.wins;
                     totalLosses += status.qual.ranking.record.losses;
                     totalTies += status.qual.ranking.record.ties;
-                    // TBA exposes Avg RP as sort_orders[0]. Multiply by matches played for exact RP.
-                    const avgRP = status.qual.ranking.sort_orders[0] || 0;
-                    const played = status.qual.ranking.matches_played || 0;
-                    totalRP += (avgRP * played); 
+                }
+
+                // 2. Add Playoff Record
+                if (status.playoff && status.playoff.record) {
+                    totalWins += status.playoff.record.wins;
+                    totalLosses += status.playoff.record.losses;
+                    totalTies += status.playoff.record.ties;
                 }
             });
 
-            // Get State Ranking
+            // Get District Points & State Ranking directly from TBA
             let stateRankStr = "N/A";
+            let districtPoints = 0;
+            
             if (districts && districts.length > 0) {
                 const currentDistrict = districts.find(d => d.year === 2026) || districts[0];
                 const rankData = await tba(`/district/${currentDistrict.key}/rankings`);
                 const teamRank = rankData?.find(r => r.team_key === TEAM);
-                if (teamRank) stateRankStr = `#${teamRank.rank} in ${currentDistrict.abbreviation.toUpperCase()}`;
+                
+                if (teamRank) {
+                    stateRankStr = `#${teamRank.rank} in ${currentDistrict.abbreviation.toUpperCase()}`;
+                    districtPoints = teamRank.point_total; // This will pull the exact 38 points from your image
+                }
             }
 
             document.getElementById("team-stats").innerHTML = `
                 <div class="scout-meta-bar" style="margin-bottom: 2rem; grid-template-columns: repeat(3, 1fr);">
                     <div class="scout-meta-field"><label class="scout-label">Overall Record</label><span class="mono">${totalWins}-${totalLosses}-${totalTies}</span></div>
-                    <div class="scout-meta-field"><label class="scout-label">Total RP</label><span class="mono">${Math.round(totalRP)}</span></div>
+                    <div class="scout-meta-field"><label class="scout-label">District Points</label><span class="mono">${districtPoints}</span></div>
                     <div class="scout-meta-field"><label class="scout-label">State Ranking</label><span class="mono">${stateRankStr}</span></div>
                 </div>
             `;
