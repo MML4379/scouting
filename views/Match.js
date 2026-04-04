@@ -8,6 +8,41 @@ async function tba(endpoint) {
     return res.ok ? res.json() : null;
 }
 
+// Modal function
+function openModal(title, htmlContent) {
+    let backdrop = document.getElementById("sn-modal-backdrop");
+    
+    if (!backdrop) {
+        backdrop = document.createElement("div");
+        backdrop.id = "sn-modal-backdrop";
+        backdrop.className = "modal-backdrop open";
+        backdrop.style.zIndex = "200";
+        document.body.appendChild(backdrop);
+    } else {
+        backdrop.classList.add("open");
+    }
+
+    backdrop.innerHTML = `
+        <div class="modal" role="dialog" style="margin: auto; z-index: 201;">
+            <div class="modal-header">
+                <span class="modal-title">${title}</span>
+                <button class="modal-close" id="sn-modal-close">✕</button>
+            </div>
+            <div class="modal-body" id="sn-modal-body">
+                ${htmlContent}
+            </div>
+        </div>
+    `;
+
+    document.getElementById("sn-modal-close").addEventListener("click", () => {
+        backdrop.classList.remove("open");
+    });
+
+    backdrop.addEventListener("click", (e) => {
+        if (e.target === backdrop) backdrop.classList.remove("open");
+    });
+}
+
 export default async function Match() {
     setTimeout(async () => {
         try {
@@ -18,14 +53,17 @@ export default async function Match() {
             ]);
 
             // Calculate overall record, RP, Avg Score
-            let totalWins = 0, totalLosses = 0, totalTies = 0, totalRP = 0, matchesPlayed = 0, totalScore = 0;
+            let totalWins = 0, totalLosses = 0, totalTies = 0, totalRP = 0;
             
             Object.values(statuses || {}).forEach(status => {
                 if (status && status.qual) {
                     totalWins += status.qual.ranking.record.wins;
                     totalLosses += status.qual.ranking.record.losses;
                     totalTies += status.qual.ranking.record.ties;
-                    totalRP += (status.qual.ranking.sort_orders[0] * status.qual.ranking.matches_played) || 0; // Avg RP * matches
+                    // TBA exposes Avg RP as sort_orders[0]. Multiply by matches played for exact RP.
+                    const avgRP = status.qual.ranking.sort_orders[0] || 0;
+                    const played = status.qual.ranking.matches_played || 0;
+                    totalRP += (avgRP * played); 
                 }
             });
 
@@ -39,9 +77,9 @@ export default async function Match() {
             }
 
             document.getElementById("team-stats").innerHTML = `
-                <div class="scout-meta-bar" style="margin-bottom: 2rem; grid-template-columns: repeat(4, 1fr);">
+                <div class="scout-meta-bar" style="margin-bottom: 2rem; grid-template-columns: repeat(3, 1fr);">
                     <div class="scout-meta-field"><label class="scout-label">Overall Record</label><span class="mono">${totalWins}-${totalLosses}-${totalTies}</span></div>
-                    <div class="scout-meta-field"><label class="scout-label">Est. Total RP</label><span class="mono">${Math.round(totalRP)}</span></div>
+                    <div class="scout-meta-field"><label class="scout-label">Total RP</label><span class="mono">${Math.round(totalRP)}</span></div>
                     <div class="scout-meta-field"><label class="scout-label">State Ranking</label><span class="mono">${stateRankStr}</span></div>
                 </div>
             `;
@@ -82,24 +120,91 @@ export default async function Match() {
                 const matchHeader = e.target.closest('.match-card-header');
                 const teamPill = e.target.closest('.team-pill');
 
+                // MATCH SUMMARY MODAL
                 if (matchHeader) {
                     const matchKey = matchHeader.dataset.match;
                     const eventKey = matchHeader.dataset.event;
                     const matchData = allMatches.find(m => m.key === matchKey);
                     
-                    // Fetch local scouting data for all teams in match
+                    openModal(`Alliance Summary · ${matchKey}`, `<p class="state-msg">Fetching match data...</p>`);
+
                     const teams = [...matchData.alliances.red.team_keys, ...matchData.alliances.blue.team_keys].map(k => k.replace('frc',''));
                     const { data: localData } = await supabase.from(eventKey).select('*').in('Team Number', teams);
 
-                    alert(`Showing Alliance Summary for ${matchKey}\n(Implement detailed modal HTML here using localData: ${JSON.stringify(localData?.length || 0)} rows found in ${eventKey})`);
+                    let modalHtml = '';
+                    ['red', 'blue'].forEach(color => {
+                        const allianceTeams = matchData.alliances[color].team_keys.map(k => k.replace('frc', ''));
+                        const score = matchData.alliances[color].score;
+                        
+                        modalHtml += `
+                            <div class="alliance-modal-block ${color}">
+                                <div class="alliance-modal-header">
+                                    <span>${color.toUpperCase()} ALLIANCE</span>
+                                    <span class="alliance-modal-score">${score} pts</span>
+                                </div>
+                        `;
+
+                        allianceTeams.forEach(team => {
+                            const tData = (localData || []).find(d => String(d['Team Number']) === team);
+                            modalHtml += `<div class="match-team-block">
+                                <div class="match-team-label ${color}">Team ${team}</div>`;
+                            
+                            if (tData) {
+                                modalHtml += `
+                                    <div class="modal-table-wrap">
+                                        <table class="sn-pro modal-table">
+                                            <thead><tr><th>Metric</th><th>Value</th></tr></thead>
+                                            <tbody>
+                                                <tr><td>Drive Train</td><td>${tData['Drive Train'] || '—'}</td></tr>
+                                                <tr><td>Auton Climb</td><td>${tData['Auton Climb'] ? 'Yes' : 'No'}</td></tr>
+                                                <tr><td>Fire Rate</td><td>${tData['Fire rate'] !== null ? tData['Fire rate'] + ' b/s' : '—'}</td></tr>
+                                                <tr><td>Ball Capacity</td><td>${tData['Ball capacity'] !== null ? tData['Ball capacity'] : '—'}</td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                `;
+                            } else {
+                                modalHtml += `<p class="no-scout">No scouting data logged.</p>`;
+                            }
+                            modalHtml += `</div>`;
+                        });
+                        modalHtml += `</div>`;
+                    });
+
+                    document.getElementById("sn-modal-body").innerHTML = modalHtml;
                 }
 
+                // TEAM SUMMARY MODAL
                 if (teamPill) {
                     e.stopPropagation();
                     const team = teamPill.dataset.team;
                     const eventKey = teamPill.dataset.event;
+                    
+                    openModal(`Team ${team} Data`, `<p class="state-msg">Fetching team data...</p>`);
+
                     const { data } = await supabase.from(eventKey).select('*').eq('Team Number', team);
-                    alert(`Team ${team} data from table ${eventKey}:\n${JSON.stringify(data || 'No data')}`);
+                    
+                    if (!data || data.length === 0) {
+                        document.getElementById("sn-modal-body").innerHTML = `<p class="state-msg">No scouting data logged for Team ${team} at this event.</p>`;
+                        return;
+                    }
+
+                    const teamData = data[0]; 
+                    const skipKeys = ["id", "created_at"];
+                    
+                    const rows = Object.keys(teamData)
+                        .filter(k => !skipKeys.includes(k))
+                        .map(k => `<tr><td>${k}</td><td class="mono">${teamData[k] !== null && teamData[k] !== "" ? teamData[k] : '—'}</td></tr>`)
+                        .join("");
+
+                    document.getElementById("sn-modal-body").innerHTML = `
+                        <div class="modal-table-wrap">
+                            <table class="sn-pro modal-table">
+                                <thead><tr><th>Field</th><th>Recorded Value</th></tr></thead>
+                                <tbody>${rows}</tbody>
+                            </table>
+                        </div>
+                    `;
                 }
             });
 

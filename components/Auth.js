@@ -11,11 +11,9 @@ export default function Auth({ onSuccess } = {}) {
     backdrop.innerHTML = `
         <div class="auth-card" role="dialog" style="position: relative; z-index: 1001; margin: auto;">
             <div class="auth-brand">
-                <span class="auth-brand-number">7250</span>
-                <span class="auth-brand-dot">·</span>
-                <span class="auth-brand-name">ScoutNet</span>
+                <span class="auth-brand-number">Team 7250</span>
             </div>
-            <p class="auth-tagline">Sign in to submit scouting data</p>
+            <p class="auth-tagline">Sign in to view and submit scouting data.</p>
             <div class="auth-field">
                 <label class="auth-label" for="signin-email">Email</label>
                 <input class="auth-input" type="email" id="signin-email" placeholder="user@oscodaschools.org">
