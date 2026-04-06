@@ -11,7 +11,7 @@ async function tba(endpoint) {
 // Modal function
 function openModal(title, htmlContent) {
     let backdrop = document.getElementById("sn-modal-backdrop");
-    
+
     if (!backdrop) {
         backdrop = document.createElement("div");
         backdrop.id = "sn-modal-backdrop";
@@ -54,7 +54,7 @@ export default async function Match() {
 
             // Calculate overall record (Quals + Playoffs)
             let totalWins = 0, totalLosses = 0, totalTies = 0;
-            
+
             Object.values(statuses || {}).forEach(status => {
                 if (!status) return;
 
@@ -76,12 +76,12 @@ export default async function Match() {
             // Get District Points & State Ranking directly from TBA
             let stateRankStr = "N/A";
             let districtPoints = 0;
-            
+
             if (districts && districts.length > 0) {
                 const currentDistrict = districts.find(d => d.year === 2026) || districts[0];
                 const rankData = await tba(`/district/${currentDistrict.key}/rankings`);
                 const teamRank = rankData?.find(r => r.team_key === TEAM);
-                
+
                 if (teamRank) {
                     stateRankStr = `#${teamRank.rank} in ${currentDistrict.abbreviation.toUpperCase()}`;
                     districtPoints = teamRank.point_total; // This will pull the exact 38 points from your image
@@ -102,7 +102,7 @@ export default async function Match() {
                 const m = await tba(`/team/${TEAM}/event/${ev.key}/matches`);
                 if (m) allMatches.push(...m.map(match => ({ ...match, event_key: ev.key })));
             }
-            
+
             allMatches.sort((a, b) => a.actual_time - b.actual_time);
 
             const renderMatches = (matches) => matches.map(m => `
@@ -111,8 +111,8 @@ export default async function Match() {
                         <span class="match-label">${m.key.split('_')[1].toUpperCase()} @ ${m.event_key}</span>
                     </div>
                     <div class="match-alliances">
-                        <div class="alliance-block red"><div class="alliance-teams">${m.alliances.red.team_keys.map(k=>`<span class="team-pill red" data-team="${k.replace('frc','')}" data-event="${m.event_key}">${k.replace('frc','')}</span>`).join('')}</div><div class="alliance-score">${m.alliances.red.score}</div></div>
-                        <div class="alliance-block blue"><div class="alliance-teams">${m.alliances.blue.team_keys.map(k=>`<span class="team-pill blue" data-team="${k.replace('frc','')}" data-event="${m.event_key}">${k.replace('frc','')}</span>`).join('')}</div><div class="alliance-score">${m.alliances.blue.score}</div></div>
+                        <div class="alliance-block red"><div class="alliance-teams">${m.alliances.red.team_keys.map(k => `<span class="team-pill red" data-team="${k.replace('frc', '')}" data-event="${m.event_key}">${k.replace('frc', '')}</span>`).join('')}</div><div class="alliance-score">${m.alliances.red.score}</div></div>
+                        <div class="alliance-block blue"><div class="alliance-teams">${m.alliances.blue.team_keys.map(k => `<span class="team-pill blue" data-team="${k.replace('frc', '')}" data-event="${m.event_key}">${k.replace('frc', '')}</span>`).join('')}</div><div class="alliance-score">${m.alliances.blue.score}</div></div>
                     </div>
                 </div>
             `).join("");
@@ -137,17 +137,17 @@ export default async function Match() {
                     const matchKey = matchHeader.dataset.match;
                     const eventKey = matchHeader.dataset.event;
                     const matchData = allMatches.find(m => m.key === matchKey);
-                    
+
                     openModal(`Alliance Summary · ${matchKey}`, `<p class="state-msg">Fetching match data...</p>`);
 
-                    const teams = [...matchData.alliances.red.team_keys, ...matchData.alliances.blue.team_keys].map(k => k.replace('frc',''));
+                    const teams = [...matchData.alliances.red.team_keys, ...matchData.alliances.blue.team_keys].map(k => k.replace('frc', ''));
                     const { data: localData } = await supabase.from(eventKey).select('*').in('Team Number', teams);
 
                     let modalHtml = '';
                     ['red', 'blue'].forEach(color => {
                         const allianceTeams = matchData.alliances[color].team_keys.map(k => k.replace('frc', ''));
                         const score = matchData.alliances[color].score;
-                        
+
                         modalHtml += `
                             <div class="alliance-modal-block ${color}">
                                 <div class="alliance-modal-header">
@@ -160,7 +160,7 @@ export default async function Match() {
                             const tData = (localData || []).find(d => String(d['Team Number']) === team);
                             modalHtml += `<div class="match-team-block">
                                 <div class="match-team-label ${color}">Team ${team}</div>`;
-                            
+
                             if (tData) {
                                 modalHtml += `
                                     <div class="modal-table-wrap">
@@ -168,7 +168,7 @@ export default async function Match() {
                                             <thead><tr><th>Metric</th><th>Value</th></tr></thead>
                                             <tbody>
                                                 <tr><td>Drive Train</td><td>${tData['Drive Train'] || '—'}</td></tr>
-                                                <tr><td>Auton Climb</td><td>${tData['Auton Climb'] ? 'Yes' : 'No'}</td></tr>
+                                                <tr><td>Auton Climb</td><td>${tData['Auton Climb'] ? '✅' : '❌'}</td></tr>
                                                 <tr><td>Fire Rate</td><td>${tData['Fire rate'] !== null ? tData['Fire rate'] + ' b/s' : '—'}</td></tr>
                                                 <tr><td>Ball Capacity</td><td>${tData['Ball capacity'] !== null ? tData['Ball capacity'] : '—'}</td></tr>
                                             </tbody>
@@ -191,23 +191,40 @@ export default async function Match() {
                     e.stopPropagation();
                     const team = teamPill.dataset.team;
                     const eventKey = teamPill.dataset.event;
-                    
+
                     openModal(`Team ${team} Data`, `<p class="state-msg">Fetching team data...</p>`);
 
                     const { data } = await supabase.from(eventKey).select('*').eq('Team Number', team);
-                    
+
                     if (!data || data.length === 0) {
                         document.getElementById("sn-modal-body").innerHTML = `<p class="state-msg">No scouting data logged for Team ${team} at this event.</p>`;
                         return;
                     }
 
-                    const teamData = data[0]; 
+                    const teamData = data[0];
                     const skipKeys = ["id", "created_at"];
-                    
+
                     const rows = Object.keys(teamData)
                         .filter(k => !skipKeys.includes(k))
-                        .map(k => `<tr><td>${k}</td><td class="mono">${teamData[k] !== null && teamData[k] !== "" ? teamData[k] : '—'}</td></tr>`)
-                        .join("");
+                        .map(k => {
+                            const val = teamData[k];
+                            let displayValue;
+
+                            // 1. Check for Boolean (✅/❌)
+                            if (typeof val === "boolean") {
+                                displayValue = val ? '✅' : '❌';
+                            }
+                            // 2. Check for null, undefined, or empty string (—)
+                            else if (val === null || val === undefined || val === "") {
+                                displayValue = '—';
+                            }
+                            // 3. Otherwise, use the value as-is
+                            else {
+                                displayValue = val;
+                            }
+
+                            return `<tr><td>${k}</td><td class="mono">${displayValue}</td></tr>`;})
+                            .join("");
 
                     document.getElementById("sn-modal-body").innerHTML = `
                         <div class="modal-table-wrap">
