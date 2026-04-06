@@ -88,6 +88,9 @@ async function renderScoutForm() {
                                 <option value="">Select...</option><option value="Human Player">Human Player</option><option value="Ground">Ground</option><option value="Both">Both</option><option value="N/A">N/A</option>
                             </select>
                         </div>
+                        <div class="scout-field">
+                            <div class="scout-field"><label class="scout-label">Cycles Per Match</label><input class="scout-input req-pit" type="number" step="any" id="pit-cycles" required min="0"></div>
+                        </div>
                     </div>
                 </div>
 
@@ -247,6 +250,7 @@ function bindForm() {
             "Drive Train": getVal("pit-drive-train"),
             "Fire rate": getVal("pit-fire-rate") ? parseFloat(getVal("pit-fire-rate")) : null,
             "Ball capacity": getVal("pit-ball-cap") ? parseFloat(getVal("pit-ball-cap")) : null,
+            "Cycles Per Match": getVal("pit-cycles") ? parseFloat(getVal("pit-cycles")) : null,
             "Over/Under Intake": getVal("pit-intake-type"),
             "L1 Climb": document.getElementById("pit-c-l1").checked,
             "L2 Climb": document.getElementById("pit-c-l2").checked,
