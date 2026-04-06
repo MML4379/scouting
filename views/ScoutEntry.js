@@ -127,6 +127,11 @@ async function renderScoutForm() {
                                 <option value="">Select...</option><option value="1">1 year or less</option><option value="2">2 years</option><option value="3">3 years</option><option value="4">4 years</option><option value="5">5+ years</option>
                             </select>
                         </div>
+                        <div class="scout-field">
+                            <label class="scout-label">Willing to Defend?</label>
+                            <input type="checkbox" id="pit-defense">
+                            <span class="toggle-track"><span class="toggle-thumb"></span></span>
+                        </div>
                     </div>
                 </div>
 
@@ -260,6 +265,7 @@ function bindForm() {
             "Area to Climb": getVal("pit-climb-area"),
             "Preferred Starting Spot": getVal("pit-pref-start"),
             "Driver Experience": getVal("pit-driver-exp") ? parseInt(getVal("pit-driver-exp")) : null,
+            "Defense?": document.getElementById("pit-defense").checked,
             "Auton Climb": document.getElementById("pit-c-auton").checked,
         };
 
