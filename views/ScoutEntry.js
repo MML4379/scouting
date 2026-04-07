@@ -17,7 +17,7 @@ async function fetchEvents() {
 
 async function renderScoutForm() {
     const events = await fetchEvents();
-    const eventOptions = events.length 
+    const eventOptions = events.length
         ? events.map(e => `<option value="${e.key}">${e.name} (${e.key})</option>`).join('')
         : `<option value="">No events found</option>`;
 
@@ -132,6 +132,13 @@ async function renderScoutForm() {
                             <input type="checkbox" id="pit-defense">
                             <span class="toggle-track"><span class="toggle-thumb"></span></span>
                         </div>
+                            <div class="scout-field scout-field--full" style="padding-bottom: 1.5rem;">
+                            <label class="scout-label">Robot Reliability (1-10)</label>
+                            <div style="display: flex; gap: 1.5rem; align-items: center; margin-top: 0.5rem;">
+                                <input type="range" id="pit-reliability" min="1" max="10" value="5" style="flex: 1; cursor: pointer;">
+                                <span id="pit-reliability-val" class="mono" style="font-size: 1.2rem; font-weight: 600; color: var(--orange);">5</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -191,7 +198,11 @@ async function renderScoutForm() {
                         <div class="scout-field scout-field--checkbox">
                             <label class="scout-label">Did they Climb?</label>
                             <label class="toggle-wrap"><input type="checkbox" id="stands-climb"><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
-                        </div>
+                            <label class="scout-label">Did they play defense?</label>
+                            <label class="toggle-wrap"><input type="checkbox" id="stands-defense"><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+                            <label class="scout-label">Did they play break down?</label>
+                            <label class="toggle-wrap"><input type="checkbox" id="stands-reliability"><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+                 </div>
                     </div>
                 </div>
 
@@ -225,7 +236,10 @@ function bindForm() {
     // Sync Slider Text
     const slider = document.getElementById("stands-shot-consist");
     const sliderVal = document.getElementById("stands-shot-val");
+    const reliabilityslider = document.getElementById("pit-reliability");
+    const reliabilitysliderVal = document.getElementById("pit-reliability-val");
     slider.addEventListener("input", (e) => { sliderVal.textContent = e.target.value; });
+    reliabilityslider.addEventListener("input", (e) => { reliabilitysliderVal.textContent = e.target.value; });
 
     // Pit Form Logic
     const resubmitToggle = document.getElementById("pit-is-resubmit");
@@ -267,6 +281,7 @@ function bindForm() {
             "Driver Experience": getVal("pit-driver-exp") ? parseInt(getVal("pit-driver-exp")) : null,
             "Defense?": document.getElementById("pit-defense").checked,
             "Auton Climb": document.getElementById("pit-c-auton").checked,
+            "Pit Robot Reliability": document.getElementById("pit-reliability").value,
         };
 
         Object.keys(payload).forEach(key => { if (payload[key] === null) delete payload[key]; });
@@ -322,6 +337,8 @@ function bindForm() {
             "Cycles": parseInt(document.getElementById("stands-cycles").value),
             "Shot Consistency": parseInt(document.getElementById("stands-shot-consist").value),
             "Stands Climb": document.getElementById("stands-climb").checked,
+            "Stands Defense?": document.getElementById("stands-defense").checked,
+            "Stands Defense?": document.getElementById("stands-reliability").checked,
         };
 
         try {
@@ -329,7 +346,7 @@ function bindForm() {
             const { error: inErr } = await supabase.from(eventId).insert([payload]);
             if (inErr) throw inErr;
             alert(`Match ${matchStr} data saved successfully!`);
-            
+
             // Reset form but keep Event ID, Scouter Name, and Match Type filled
             const cachedEvent = document.getElementById("stands-event-id").value;
             const cachedScouter = document.getElementById("stands-scouter").value;
