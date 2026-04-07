@@ -106,7 +106,7 @@ async function renderScoutForm() {
                         <div class="scout-field">
                             <label class="scout-label">Area to Climb</label>
                             <select class="scout-select req-pit" id="pit-climb-area" required>
-                                <option value="">Select...</option><option value="Center">Center</option><option value="Outside Left">Outside Left</option><option value="Outside Right">Outside Right</option><option value="Outside Left and Right">Outside Left and Right</option><option value="All Sides">All Sides</option><option value="N/A">N/A</option>
+                                <option value="">Select...</option><option value="Center">Center</option><option value="Depot">Depot</option><option value="HP">HP</option><option value="Depot and HP">Depot and HP</option><option value="All">All</option><option value="N/A">N/A</option>
                             </select>
                         </div>
                     </div>
@@ -185,8 +185,16 @@ async function renderScoutForm() {
                             <label class="scout-label">Auto Successful?</label>
                             <label class="toggle-wrap"><input type="checkbox" id="stands-auto-success"><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
                         </div>
+                        
                         <div class="scout-field"><label class="scout-label">Total Cycles</label><input class="scout-input" type="number" id="stands-cycles" required min="0"></div>
                         
+                        <div class="scout-field"><label class="scout-label">Did they Climb?</label>
+                            <label class="toggle-wrap">
+                                <select class="scout-select" id="stands-climb" required>
+                                    <option value="">Select...</option><option value="L1">L1</option><option value="L2">L2</option><option value="L3">L3</option><option value="No">No</option>
+                                </select>
+                        </div>
+
                         <div class="scout-field scout-field--full" style="padding-bottom: 1.5rem;">
                             <label class="scout-label">Shot Consistency (1-10)</label>
                             <div style="display: flex; gap: 1.5rem; align-items: center; margin-top: 0.5rem;">
@@ -194,10 +202,9 @@ async function renderScoutForm() {
                                 <span id="stands-shot-val" class="mono" style="font-size: 1.2rem; font-weight: 600; color: var(--orange);">5</span>
                             </div>
                         </div>
+                        
 
                         <div class="scout-field scout-field--checkbox">
-                            <label class="scout-label">Did they Climb?</label>
-                            <label class="toggle-wrap"><input type="checkbox" id="stands-climb"><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
                             <label class="scout-label">Did they play defense?</label>
                             <label class="toggle-wrap"><input type="checkbox" id="stands-defense"><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
                             <label class="scout-label">Did they play break down?</label>
@@ -336,7 +343,7 @@ function bindForm() {
             "Auto Success": document.getElementById("stands-auto-success").checked,
             "Cycles": parseInt(document.getElementById("stands-cycles").value),
             "Shot Consistency": parseInt(document.getElementById("stands-shot-consist").value),
-            "Stands Climb": document.getElementById("stands-climb").checked,
+            "Stands Climb": document.getElementById("stands-climb").value,
             "Stands Defense?": document.getElementById("stands-defense").checked,
             "Stands Defense?": document.getElementById("stands-reliability").checked,
         };
