@@ -25,28 +25,35 @@ async function renderScoutForm() {
         <div class="page">
             <div class="page-header-row">
                 <h1 class="page-title">Scout Entry</h1>
-                
+
                 <div class="auth-tabs" style="width: 300px; margin-bottom: 0;">
                     <button class="auth-tab active" id="tab-pit" type="button">Pit Scouting</button>
                     <button class="auth-tab" id="tab-stands" type="button">Stands Scouting</button>
                 </div>
             </div>
 
+            <!-- ══════════════ PIT FORM ══════════════ -->
+            <!-- Pit CSV columns:
+                 Team Number, Team Name, Team Location, Robot Name, Drive Train,
+                 Fire Rate (Ball/Second), Ball Capacity, Intake Type, Pick Up Method,
+                 Cycles, L1, L2, L3, Auton Climb, Time to Climb, Climb Area,
+                 Pref Start Spot, Driver Exp, Defense?
+            -->
             <form id="form-pit" class="scout-form" style="margin-top: 1.5rem; display: flex;">
-                
-                <div class="scout-meta-bar" style="grid-template-columns: 1.5fr 1.5fr 1fr;">
-                    <div class="scout-field">
+
+                <div class="scout-meta-bar">
+                    <div class="scout-meta-field">
                         <label class="scout-label">Event</label>
                         <select class="scout-select" id="pit-event-id" required>
                             <option value="">Select Event...</option>
                             ${eventOptions}
                         </select>
                     </div>
-                    <div class="scout-field">
+                    <div class="scout-meta-field">
                         <label class="scout-label">Scouter Name</label>
                         <input class="scout-input" type="text" id="pit-scouter" required placeholder="Your name">
                     </div>
-                    <div class="scout-field scout-field--checkbox" style="border: none;">
+                    <div class="scout-meta-field">
                         <label class="scout-label">Resubmission</label>
                         <label class="toggle-wrap">
                             <input type="checkbox" id="pit-is-resubmit">
@@ -55,88 +62,161 @@ async function renderScoutForm() {
                     </div>
                 </div>
 
+                <!-- Team Info -->
                 <div class="scout-section">
                     <div class="scout-section-label">Team Info</div>
                     <div class="scout-fields">
-                        <div class="scout-field"><label class="scout-label">Team Number</label><input class="scout-input req-pit" type="number" id="pit-team-num" required min="1"></div>
-                        <div class="scout-field"><label class="scout-label">Team Name</label><input class="scout-input req-pit" type="text" id="pit-team-name" required></div>
-                        <div class="scout-field"><label class="scout-label">Team Location</label><input class="scout-input req-pit" type="text" id="pit-team-loc" required></div>
-                        <div class="scout-field"><label class="scout-label">Robot Name</label><input class="scout-input req-pit" type="text" id="pit-bot-name" required></div>
+                        <div class="scout-field">
+                            <label class="scout-label">Team Number</label>
+                            <input class="scout-input req-pit" type="number" id="pit-team-num" required min="1">
+                        </div>
+                        <div class="scout-field">
+                            <label class="scout-label">Team Name</label>
+                            <input class="scout-input req-pit" type="text" id="pit-team-name" required>
+                        </div>
+                        <div class="scout-field">
+                            <label class="scout-label">Team Location</label>
+                            <input class="scout-input req-pit" type="text" id="pit-team-loc" required>
+                        </div>
+                        <div class="scout-field">
+                            <label class="scout-label">Robot Name</label>
+                            <input class="scout-input req-pit" type="text" id="pit-bot-name" required>
+                        </div>
                     </div>
                 </div>
 
+                <!-- Robot Capabilities -->
                 <div class="scout-section">
                     <div class="scout-section-label">Robot Capabilities</div>
                     <div class="scout-fields">
                         <div class="scout-field">
                             <label class="scout-label">Drive Train</label>
                             <select class="scout-select req-pit" id="pit-drive-train" required>
-                                <option value="">Select...</option><option value="Swerve">Swerve</option><option value="Tank">Tank</option><option value="Mechanum">Mechanum</option><option value="Other">Other</option>
+                                <option value="">Select...</option>
+                                <option value="Swerve">Swerve</option>
+                                <option value="Tank">Tank</option>
+                                <option value="Mechanum">Mechanum</option>
+                                <option value="Other">Other</option>
                             </select>
                         </div>
-                        <div class="scout-field"><label class="scout-label">Fire Rate (balls/sec)</label><input class="scout-input req-pit" type="number" step="any" id="pit-fire-rate" required min="0"></div>
-                        <div class="scout-field"><label class="scout-label">Ball Capacity</label><input class="scout-input req-pit" type="number" step="any" id="pit-ball-cap" required min="0"></div>
+                        <div class="scout-field">
+                            <label class="scout-label">Fire Rate (Ball/Second)</label>
+                            <input class="scout-input req-pit" type="number" step="any" id="pit-fire-rate" required min="0">
+                        </div>
+                        <div class="scout-field">
+                            <label class="scout-label">Ball Capacity</label>
+                            <input class="scout-input req-pit" type="number" id="pit-ball-cap" required min="0">
+                        </div>
                         <div class="scout-field">
                             <label class="scout-label">Intake Type</label>
                             <select class="scout-select req-pit" id="pit-intake-type" required>
-                                <option value="">Select...</option><option value="Over Bumper">Over Bumper</option><option value="Under Bumper">Under Bumper</option><option value="Both">Both</option><option value="Other">Other</option><option value="N/A">N/A</option>
+                                <option value="">Select...</option>
+                                <option value="Over Bumper">Over Bumper</option>
+                                <option value="Under Bumper">Under Bumper</option>
+                                <option value="Both">Both</option>
+                                <option value="Other">Other</option>
+                                <option value="N/A">N/A</option>
                             </select>
                         </div>
                         <div class="scout-field">
-                            <label class="scout-label">Pick up Method</label>
+                            <label class="scout-label">Pick Up Method</label>
                             <select class="scout-select req-pit" id="pit-pickup" required>
-                                <option value="">Select...</option><option value="Human Player">Human Player</option><option value="Ground">Ground</option><option value="Both">Both</option><option value="N/A">N/A</option>
+                                <option value="">Select...</option>
+                                <option value="Human Player">Human Player</option>
+                                <option value="Ground">Ground</option>
+                                <option value="Both">Both</option>
+                                <option value="N/A">N/A</option>
                             </select>
                         </div>
                         <div class="scout-field">
-                            <div class="scout-field"><label class="scout-label">Cycles Per Match</label><input class="scout-input req-pit" type="number" step="any" id="pit-cycles" required min="0"></div>
+                            <label class="scout-label">Cycles</label>
+                            <input class="scout-input req-pit" type="number" step="any" id="pit-cycles" required min="0">
                         </div>
                     </div>
                 </div>
 
+                <!-- Climb & Auton -->
                 <div class="scout-section">
-                    <div class="scout-section-label">Climb & Auton</div>
+                    <div class="scout-section-label">Climb &amp; Auton</div>
                     <div class="scout-fields">
-                        <div class="scout-field scout-field--checkbox"><label class="scout-label">L1 Climb</label><input type="checkbox" id="pit-c-l1"></div>
-                        <div class="scout-field scout-field--checkbox"><label class="scout-label">L2 Climb</label><input type="checkbox" id="pit-c-l2"></div>
-                        <div class="scout-field scout-field--checkbox"><label class="scout-label">L3 Climb</label><input type="checkbox" id="pit-c-l3"></div>
-                        <div class="scout-field scout-field--checkbox"><label class="scout-label">Auton Climb</label><input type="checkbox" id="pit-c-auton"></div>
-                        
-                        <div class="scout-field"><label class="scout-label">Time to Climb (s)</label><input class="scout-input req-pit" type="number" step="any" id="pit-climb-time" required min="0"></div>
+                        <div class="scout-field scout-field--checkbox">
+                            <label class="scout-label">L1</label>
+                            <label class="toggle-wrap">
+                                <input type="checkbox" id="pit-c-l1">
+                                <span class="toggle-track"><span class="toggle-thumb"></span></span>
+                            </label>
+                        </div>
+                        <div class="scout-field scout-field--checkbox">
+                            <label class="scout-label">L2</label>
+                            <label class="toggle-wrap">
+                                <input type="checkbox" id="pit-c-l2">
+                                <span class="toggle-track"><span class="toggle-thumb"></span></span>
+                            </label>
+                        </div>
+                        <div class="scout-field scout-field--checkbox">
+                            <label class="scout-label">L3</label>
+                            <label class="toggle-wrap">
+                                <input type="checkbox" id="pit-c-l3">
+                                <span class="toggle-track"><span class="toggle-thumb"></span></span>
+                            </label>
+                        </div>
+                        <div class="scout-field scout-field--checkbox">
+                            <label class="scout-label">Auton Climb</label>
+                            <label class="toggle-wrap">
+                                <input type="checkbox" id="pit-c-auton">
+                                <span class="toggle-track"><span class="toggle-thumb"></span></span>
+                            </label>
+                        </div>
                         <div class="scout-field">
-                            <label class="scout-label">Area to Climb</label>
+                            <label class="scout-label">Time to Climb (s)</label>
+                            <input class="scout-input req-pit" type="number" step="any" id="pit-climb-time" required min="0">
+                        </div>
+                        <div class="scout-field">
+                            <label class="scout-label">Climb Area</label>
                             <select class="scout-select req-pit" id="pit-climb-area" required>
-                                <option value="">Select...</option><option value="Center">Center</option><option value="Depot">Depot</option><option value="HP">HP</option><option value="Depot and HP">Depot and HP</option><option value="All">All</option><option value="N/A">N/A</option>
+                                <option value="">Select...</option>
+                                <option value="Center">Center</option>
+                                <option value="Depot">Depot</option>
+                                <option value="HP">HP</option>
+                                <option value="Depot and HP">Depot and HP</option>
+                                <option value="All">All</option>
+                                <option value="N/A">N/A</option>
                             </select>
                         </div>
                     </div>
                 </div>
 
+                <!-- Experience & Strategy -->
                 <div class="scout-section">
-                    <div class="scout-section-label">Experience & Strategy</div>
+                    <div class="scout-section-label">Experience &amp; Strategy</div>
                     <div class="scout-fields">
                         <div class="scout-field">
-                            <label class="scout-label">Pref Starting Spot</label>
+                            <label class="scout-label">Pref Start Spot</label>
                             <select class="scout-select req-pit" id="pit-pref-start" required>
-                                <option value="">Select...</option><option value="Depot Side">Depot Side</option><option value="Human Player Side">Human Player Side</option><option value="Center">Center</option><option value="No Preference">No Preference</option>
+                                <option value="">Select...</option>
+                                <option value="Depot Side">Depot Side</option>
+                                <option value="Human Player Side">Human Player Side</option>
+                                <option value="Center">Center</option>
+                                <option value="No Preference">No Preference</option>
                             </select>
                         </div>
                         <div class="scout-field">
                             <label class="scout-label">Driver Exp</label>
                             <select class="scout-select req-pit" id="pit-driver-exp" required>
-                                <option value="">Select...</option><option value="1">1 year or less</option><option value="2">2 years</option><option value="3">3 years</option><option value="4">4 years</option><option value="5">5+ years</option>
+                                <option value="">Select...</option>
+                                <option value="1">1 year or less</option>
+                                <option value="2">2 years</option>
+                                <option value="3">3 years</option>
+                                <option value="4">4 years</option>
+                                <option value="5">5+ years</option>
                             </select>
                         </div>
-                        <div class="scout-field">
-                            <label class="scout-label">Willing to Defend?</label>
-                            <label class="toggle-wrap"><input type="checkbox" id="pit-defense"><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
-                        </div>
-                            <div class="scout-field scout-field--full" style="padding-bottom: 1.5rem;">
-                            <label class="scout-label">Robot Reliability (1-10)</label>
-                            <div style="display: flex; gap: 1.5rem; align-items: center; margin-top: 0.5rem;">
-                                <input type="range" id="pit-reliability" min="1" max="10" value="5" style="flex: 1; cursor: pointer;">
-                                <span id="pit-reliability-val" class="mono" style="font-size: 1.2rem; font-weight: 600; color: var(--orange);">5</span>
-                            </div>
+                        <div class="scout-field scout-field--checkbox">
+                            <label class="scout-label">Defense?</label>
+                            <label class="toggle-wrap">
+                                <input type="checkbox" id="pit-defense">
+                                <span class="toggle-track"><span class="toggle-thumb"></span></span>
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -144,85 +224,135 @@ async function renderScoutForm() {
                 <button type="submit" class="btn btn-primary" id="btn-submit-pit" style="margin-top: 1rem;">Submit Pit Data</button>
             </form>
 
+            <!-- ══════════════ STANDS FORM ══════════════ -->
+            <!-- Stands CSV columns:
+                 Team Number, Match, Scouters, Auto Start, Auto End, Auto Success,
+                 Cycles, Shot Consistency, Stands Climb, Cycles Per Match,
+                 Climbed?, Defended?, Broke Down?, Shot Consistency
+            -->
             <form id="form-stands" class="scout-form" style="margin-top: 1.5rem; display: none;">
-                
-                <div class="scout-meta-bar" style="grid-template-columns: 1fr 1fr;">
-                    <div class="scout-field">
+
+                <div class="scout-meta-bar">
+                    <div class="scout-meta-field">
                         <label class="scout-label">Event</label>
                         <select class="scout-select" id="stands-event-id" required>
                             <option value="">Select Event...</option>
                             ${eventOptions}
                         </select>
                     </div>
-                    <div class="scout-field">
+                    <div class="scout-meta-field">
                         <label class="scout-label">Scouter Name</label>
                         <input class="scout-input" type="text" id="stands-scouter" required placeholder="Your name">
                     </div>
                 </div>
 
+                <!-- Match Details -->
                 <div class="scout-section">
                     <div class="scout-section-label">Match Details</div>
                     <div class="scout-fields">
-                        <div class="scout-field"><label class="scout-label">Team Number</label><input class="scout-input" type="number" id="stands-team-num" required min="1"></div>
-                        <div class="scout-field"><label class="scout-label">Match Type</label>
-                            <select class="scout-select" id="stands-match-type" required><option value="">Select...</option><option value="qm">Quals (qm)</option><option value="sf">Playoff (sf)</option><option value="f">Finals (f)</option></select>
+                        <div class="scout-field">
+                            <label class="scout-label">Team Number</label>
+                            <input class="scout-input" type="number" id="stands-team-num" required min="1">
                         </div>
-                        <div class="scout-field"><label class="scout-label">Match #</label><input class="scout-input" type="number" id="stands-match-num" required></div>
+                        <div class="scout-field">
+                            <label class="scout-label">Match Type</label>
+                            <select class="scout-select" id="stands-match-type" required>
+                                <option value="">Select...</option>
+                                <option value="qm">Quals (qm)</option>
+                                <option value="sf">Playoff (sf)</option>
+                                <option value="f">Finals (f)</option>
+                            </select>
+                        </div>
+                        <div class="scout-field">
+                            <label class="scout-label">Match #</label>
+                            <input class="scout-input" type="number" id="stands-match-num" required min="1">
+                        </div>
                     </div>
                 </div>
 
+                <!-- Auto -->
                 <div class="scout-section">
                     <div class="scout-section-label">Auto</div>
                     <div class="scout-fields">
-                        
                         <div class="scout-field">
-                            <label class="scout-label">Auto Start Location</label>
-                            <select class="scout-select" id="stands-auto-path" required>
-                                <option value="">Select...</option><option value="Center">Center</option><option value="Depot Side">Depot Side</option><option value="Human Player Side">Human Player Side</option>
+                            <label class="scout-label">Auto Start</label>
+                            <select class="scout-select" id="stands-auto-start" required>
+                                <option value="">Select...</option>
+                                <option value="Center">Center</option>
+                                <option value="Depot Side">Depot Side</option>
+                                <option value="Human Player Side">Human Player Side</option>
                             </select>
                         </div>
                         <div class="scout-field">
-                            <label class="scout-label">Where do they go in auto?</label>
-                            <select class="scout-select" id="stands-auto-path" required>
-                                <option value="">Select...</option><option value="Mid">Mid</option><option value="Depot">Depot</option><option value="Human Player">Human Player</option><option value="Climb">Climb</option><option value="Just Shoot">Just Shoot</option><option value="None">None</option>
+                            <label class="scout-label">Auto End</label>
+                            <select class="scout-select" id="stands-auto-end" required>
+                                <option value="">Select...</option>
+                                <option value="Mid">Mid</option>
+                                <option value="Depot">Depot</option>
+                                <option value="Human Player">Human Player</option>
+                                <option value="Climb">Climb</option>
+                                <option value="Just Shoot">Just Shoot</option>
+                                <option value="None">None</option>
                             </select>
                         </div>
                         <div class="scout-field scout-field--checkbox">
-                            <label class="scout-label">Auto Successful?</label>
-                            <label class="toggle-wrap"><input type="checkbox" id="stands-auto-success"><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+                            <label class="scout-label">Auto Success?</label>
+                            <label class="toggle-wrap">
+                                <input type="checkbox" id="stands-auto-success">
+                                <span class="toggle-track"><span class="toggle-thumb"></span></span>
+                            </label>
                         </div>
                     </div>
                 </div>
 
+                <!-- Teleop -->
                 <div class="scout-section">
                     <div class="scout-section-label">Teleop</div>
-                        <div class="scout-fields">
-                            <div class="scout-field"><label class="scout-label">Did they Climb?</label>
-                                <label class="toggle-wrap">
-                                    <select class="scout-select" id="stands-climb" required>
-                                        <option value="">Select...</option><option value="L1">L1</option><option value="L2">L2</option><option value="L3">L3</option><option value="No">No</option>
-                                    </select>
-                            </div>
-
-                            <div class="scout-field scout-field--checkbox">
-                                <label class="scout-label">Did they play defense?</label>
-                                <label class="toggle-wrap"><input type="checkbox" id="stands-defense"><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
-                            </div>
-
-                            <div class="scout-field scout-field--checkbox">
-                                <label class="scout-label">Did they break down?</label>
-                                <label class="toggle-wrap"><input type="checkbox" id="stands-reliability"><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
-                            </div>
-
-                            <div class="scout-field"><label class="scout-label">Total Cycles</label><input class="scout-input" type="number" id="stands-cycles" required min="0"></div>
-
-
-                            <div class="scout-field scout-field--full" style="padding-bottom: 1.5rem;">
-                                <label class="scout-label">Shot Consistency (1-10)</label>
-                                <div style="display: flex; gap: 1.5rem; align-items: center; margin-top: 0.5rem;">
-                                    <input type="range" id="stands-shot-consist" min="1" max="10" value="5" style="flex: 1; cursor: pointer;">
-                                    <span id="stands-shot-val" class="mono" style="font-size: 1.2rem; font-weight: 600; color: var(--orange);">5</span>
-                                </div>
+                    <div class="scout-fields">
+                        <div class="scout-field">
+                            <label class="scout-label">Cycles</label>
+                            <input class="scout-input" type="number" id="stands-cycles" required min="0">
+                        </div>
+                        <div class="scout-field">
+                            <label class="scout-label">Cycles Per Match</label>
+                            <input class="scout-input" type="number" id="stands-cycles-per-match" required min="0">
+                        </div>
+                        <div class="scout-field">
+                            <label class="scout-label">Stands Climb</label>
+                            <select class="scout-select" id="stands-climb" required>
+                                <option value="">Select...</option>
+                                <option value="L1">L1</option>
+                                <option value="L2">L2</option>
+                                <option value="L3">L3</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                        <div class="scout-field scout-field--checkbox">
+                            <label class="scout-label">Climbed?</label>
+                            <label class="toggle-wrap">
+                                <input type="checkbox" id="stands-climbed">
+                                <span class="toggle-track"><span class="toggle-thumb"></span></span>
+                            </label>
+                        </div>
+                        <div class="scout-field scout-field--checkbox">
+                            <label class="scout-label">Defended?</label>
+                            <label class="toggle-wrap">
+                                <input type="checkbox" id="stands-defended">
+                                <span class="toggle-track"><span class="toggle-thumb"></span></span>
+                            </label>
+                        </div>
+                        <div class="scout-field scout-field--checkbox">
+                            <label class="scout-label">Broke Down?</label>
+                            <label class="toggle-wrap">
+                                <input type="checkbox" id="stands-broke-down">
+                                <span class="toggle-track"><span class="toggle-thumb"></span></span>
+                            </label>
+                        </div>
+                        <div class="scout-field scout-field--full" style="padding-bottom: 1.5rem;">
+                            <label class="scout-label">Shot Consistency (1-10)</label>
+                            <div style="display: flex; gap: 1.5rem; align-items: center; margin-top: 0.5rem;">
+                                <input type="range" id="stands-shot-consist" min="1" max="10" value="5" style="flex: 1; cursor: pointer;">
+                                <span id="stands-shot-val" class="mono" style="font-size: 1.2rem; font-weight: 600; color: var(--orange);">5</span>
                             </div>
                         </div>
                     </div>
@@ -235,10 +365,10 @@ async function renderScoutForm() {
 }
 
 function bindForm() {
-    // Tab switching logic
-    const tabPit = document.getElementById("tab-pit");
+    // ── Tab switching ──────────────────────────────
+    const tabPit    = document.getElementById("tab-pit");
     const tabStands = document.getElementById("tab-stands");
-    const formPit = document.getElementById("form-pit");
+    const formPit   = document.getElementById("form-pit");
     const formStands = document.getElementById("form-stands");
 
     tabPit.addEventListener("click", () => {
@@ -255,15 +385,12 @@ function bindForm() {
         formPit.style.display = "none";
     });
 
-    // Sync Slider Text
-    const slider = document.getElementById("stands-shot-consist");
-    const sliderVal = document.getElementById("stands-shot-val");
-    const reliabilityslider = document.getElementById("pit-reliability");
-    const reliabilitysliderVal = document.getElementById("pit-reliability-val");
-    slider.addEventListener("input", (e) => { sliderVal.textContent = e.target.value; });
-    reliabilityslider.addEventListener("input", (e) => { reliabilitysliderVal.textContent = e.target.value; });
+    // ── Slider sync ───────────────────────────────
+    const shotSlider    = document.getElementById("stands-shot-consist");
+    const shotSliderVal = document.getElementById("stands-shot-val");
+    shotSlider.addEventListener("input", (e) => { shotSliderVal.textContent = e.target.value; });
 
-    // Pit Form Logic
+    // ── Pit: resubmission toggle ──────────────────
     const resubmitToggle = document.getElementById("pit-is-resubmit");
     const reqFields = document.querySelectorAll(".req-pit");
 
@@ -271,118 +398,132 @@ function bindForm() {
         reqFields.forEach(f => { f.required = !e.target.checked; });
     });
 
-    document.getElementById("form-pit").addEventListener("submit", async (e) => {
+    // ── Pit submit ────────────────────────────────
+    formPit.addEventListener("submit", async (e) => {
         e.preventDefault();
         const btn = document.getElementById("btn-submit-pit");
-        btn.disabled = true; btn.textContent = "Processing...";
+        btn.disabled = true;
+        btn.textContent = "Processing...";
 
-        const eventId = document.getElementById("pit-event-id").value;
-        const teamNum = document.getElementById("pit-team-num").value;
-        const scouter = document.getElementById("pit-scouter").value.trim();
+        const eventId   = document.getElementById("pit-event-id").value;
+        const teamNum   = parseInt(document.getElementById("pit-team-num").value);
+        const scouter   = document.getElementById("pit-scouter").value.trim();
         const isResubmit = resubmitToggle.checked;
 
-        const getVal = (id) => document.getElementById(id).value === "" ? null : document.getElementById(id).value;
-
-        let payload = {
-            "Team Number": parseInt(teamNum),
-            "Team Name": getVal("pit-team-name"),
-            "Team Location": getVal("pit-team-loc"),
-            "Robot Name": getVal("pit-bot-name"),
-            "Drive Train": getVal("pit-drive-train"),
-            "Fire rate": getVal("pit-fire-rate") ? parseFloat(getVal("pit-fire-rate")) : null,
-            "Ball capacity": getVal("pit-ball-cap") ? parseFloat(getVal("pit-ball-cap")) : null,
-            "Cycles Per Match": getVal("pit-cycles") ? parseFloat(getVal("pit-cycles")) : null,
-            "Over/Under Intake": getVal("pit-intake-type"),
-            "L1 Climb": document.getElementById("pit-c-l1").checked,
-            "L2 Climb": document.getElementById("pit-c-l2").checked,
-            "L3 Climb": document.getElementById("pit-c-l3").checked,
-            "Pick up Method": getVal("pit-pickup"),
-            "Time to Climb": getVal("pit-climb-time") ? parseFloat(getVal("pit-climb-time")) : null,
-            "Area to Climb": getVal("pit-climb-area"),
-            "Preferred Starting Spot": getVal("pit-pref-start"),
-            "Driver Experience": getVal("pit-driver-exp") ? parseInt(getVal("pit-driver-exp")) : null,
-            "Defense?": document.getElementById("pit-defense").checked,
-            "Auton Climb": document.getElementById("pit-c-auton").checked,
-            "Pit Robot Reliability": document.getElementById("pit-reliability").value,
+        const getVal = (id) => {
+            const v = document.getElementById(id).value;
+            return v === "" ? null : v;
         };
 
-        Object.keys(payload).forEach(key => { if (payload[key] === null) delete payload[key]; });
+        // Keys match pit CSV columns exactly
+        let payload = {
+            "Team Number":           teamNum,
+            "Team Name":             getVal("pit-team-name"),
+            "Team Location":         getVal("pit-team-loc"),
+            "Robot Name":            getVal("pit-bot-name"),
+            "Drive Train":           getVal("pit-drive-train"),
+            "Fire Rate (Ball/Second)": getVal("pit-fire-rate") !== null ? parseFloat(getVal("pit-fire-rate")) : null,
+            "Ball Capacity":         getVal("pit-ball-cap")   !== null ? parseFloat(getVal("pit-ball-cap"))   : null,
+            "Intake Type":           getVal("pit-intake-type"),
+            "Pick Up Method":        getVal("pit-pickup"),
+            "Cycles":                getVal("pit-cycles")     !== null ? parseFloat(getVal("pit-cycles"))     : null,
+            "L1":                    document.getElementById("pit-c-l1").checked,
+            "L2":                    document.getElementById("pit-c-l2").checked,
+            "L3":                    document.getElementById("pit-c-l3").checked,
+            "Auton Climb":           document.getElementById("pit-c-auton").checked,
+            "Time to Climb":         getVal("pit-climb-time") !== null ? parseFloat(getVal("pit-climb-time")) : null,
+            "Climb Area":            getVal("pit-climb-area"),
+            "Pref Start Spot":       getVal("pit-pref-start"),
+            "Driver Exp":            getVal("pit-driver-exp") !== null ? parseInt(getVal("pit-driver-exp"))   : null,
+            "Defense?":              document.getElementById("pit-defense").checked,
+        };
+
+        // Strip nulls from payload
+        Object.keys(payload).forEach(k => { if (payload[k] === null) delete payload[k]; });
 
         try {
             if (isResubmit) {
-                const { data: existing, error: fetchErr } = await supabase.from(eventId).select("*").eq("Team Number", teamNum).single();
+                const { data: existing, error: fetchErr } = await supabase
+                    .from(eventId).select("*").eq("Team Number", teamNum).single();
                 if (fetchErr) throw new Error(`Could not find team ${teamNum} in table ${eventId} to resubmit.`);
 
-                // Append Scouter Name
-                const existingScouters = existing.Scouters ? existing.Scouters.split(', ') : [];
+                const existingScouters = existing.Scouters ? existing.Scouters.split(", ") : [];
                 if (!existingScouters.includes(scouter)) existingScouters.push(scouter);
-                payload.Scouters = existingScouters.join(', ');
+                payload.Scouters = existingScouters.join(", ");
 
-                const { error: upErr } = await supabase.from(eventId).update(payload).eq("Team Number", teamNum);
+                const { error: upErr } = await supabase
+                    .from(eventId).update(payload).eq("Team Number", teamNum);
                 if (upErr) throw upErr;
-                alert("Pit Resubmission successful!");
+                alert("Pit resubmission successful!");
             } else {
                 payload.Scouters = scouter;
                 const { error: inErr } = await supabase.from(eventId).insert([payload]);
                 if (inErr) throw inErr;
-                alert("New Pit entry saved!");
+                alert("New pit entry saved!");
             }
-            // Reset form but keep Event ID and Scouter Name filled
-            const cachedEvent = document.getElementById("pit-event-id").value;
+
+            // Reset but keep event + scouter
+            const cachedEvent   = document.getElementById("pit-event-id").value;
             const cachedScouter = document.getElementById("pit-scouter").value;
-            document.getElementById("form-pit").reset();
-            document.getElementById("pit-event-id").value = cachedEvent;
-            document.getElementById("pit-scouter").value = cachedScouter;
+            formPit.reset();
+            document.getElementById("pit-event-id").value  = cachedEvent;
+            document.getElementById("pit-scouter").value   = cachedScouter;
 
         } catch (err) {
             alert(`Error: ${err.message}`);
         } finally {
-            btn.disabled = false; btn.textContent = "Submit Pit Data";
+            btn.disabled = false;
+            btn.textContent = "Submit Pit Data";
         }
     });
 
-    // Stands Form Logic
-    document.getElementById("form-stands").addEventListener("submit", async (e) => {
+    // ── Stands submit ─────────────────────────────
+    formStands.addEventListener("submit", async (e) => {
         e.preventDefault();
         const btn = document.getElementById("btn-submit-stands");
-        btn.disabled = true; btn.textContent = "Processing...";
+        btn.disabled = true;
+        btn.textContent = "Processing...";
 
-        const eventId = document.getElementById("stands-event-id").value;
+        const eventId  = document.getElementById("stands-event-id").value;
         const matchStr = `${document.getElementById("stands-match-type").value}${document.getElementById("stands-match-num").value}`;
 
-        let payload = {
-            "Team Number": parseInt(document.getElementById("stands-team-num").value),
-            "Scouters": document.getElementById("stands-scouter").value.trim(),
-            "Match": matchStr,
-            "Auto Path": document.getElementById("stands-auto-path").value,
-            "Auto Success": document.getElementById("stands-auto-success").checked,
-            "Cycles": parseInt(document.getElementById("stands-cycles").value),
+        // Keys match stands CSV columns exactly
+        const payload = {
+            "Team Number":     parseInt(document.getElementById("stands-team-num").value),
+            "Match":           matchStr,
+            "Scouters":        document.getElementById("stands-scouter").value.trim(),
+            "Auto Start":      document.getElementById("stands-auto-start").value,
+            "Auto End":        document.getElementById("stands-auto-end").value,
+            "Auto Success":    document.getElementById("stands-auto-success").checked,
+            "Cycles":          parseInt(document.getElementById("stands-cycles").value),
+            "Cycles Per Match": parseInt(document.getElementById("stands-cycles-per-match").value),
+            "Stands Climb":    document.getElementById("stands-climb").value,
+            "Climbed?":        document.getElementById("stands-climbed").checked,
+            "Defended?":       document.getElementById("stands-defended").checked,
+            "Broke Down?":     document.getElementById("stands-broke-down").checked,
             "Shot Consistency": parseInt(document.getElementById("stands-shot-consist").value),
-            "Stands Climb": document.getElementById("stands-climb").value,
-            "Stands Defense?": document.getElementById("stands-defense").checked,
-            "Stands Defense?": document.getElementById("stands-reliability").checked,
         };
 
         try {
-            // Always insert a new row for every match scouted
             const { error: inErr } = await supabase.from(eventId).insert([payload]);
             if (inErr) throw inErr;
             alert(`Match ${matchStr} data saved successfully!`);
 
-            // Reset form but keep Event ID, Scouter Name, and Match Type filled
-            const cachedEvent = document.getElementById("stands-event-id").value;
+            // Reset but keep event, scouter, match type
+            const cachedEvent   = document.getElementById("stands-event-id").value;
             const cachedScouter = document.getElementById("stands-scouter").value;
-            const cachedType = document.getElementById("stands-match-type").value;
-            document.getElementById("form-stands").reset();
-            document.getElementById("stands-event-id").value = cachedEvent;
-            document.getElementById("stands-scouter").value = cachedScouter;
-            document.getElementById("stands-match-type").value = cachedType;
-            sliderVal.textContent = "5";
+            const cachedType    = document.getElementById("stands-match-type").value;
+            formStands.reset();
+            document.getElementById("stands-event-id").value    = cachedEvent;
+            document.getElementById("stands-scouter").value     = cachedScouter;
+            document.getElementById("stands-match-type").value  = cachedType;
+            shotSliderVal.textContent = "5";
 
         } catch (err) {
             alert(`Error: ${err.message}`);
         } finally {
-            btn.disabled = false; btn.textContent = "Submit Match Data";
+            btn.disabled = false;
+            btn.textContent = "Submit Match Data";
         }
     });
 }
@@ -402,7 +543,6 @@ export default async function ScoutEntry() {
                 }
             });
         }, 0);
-
         return `<div class="page"><h1 class="page-title">Auth Required</h1><p>Please log in.</p></div>`;
     }
 
