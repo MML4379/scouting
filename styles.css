@@ -64,6 +64,7 @@ body, .app {
     letter-spacing: -0.02em;
     flex-shrink: 0;
     -webkit-user-select: none;
+    user-select: none;
 }
 
 .navbar-brand span {
