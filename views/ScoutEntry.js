@@ -129,8 +129,7 @@ async function renderScoutForm() {
                         </div>
                         <div class="scout-field">
                             <label class="scout-label">Willing to Defend?</label>
-                            <input type="checkbox" id="pit-defense">
-                            <span class="toggle-track"><span class="toggle-thumb"></span></span>
+                            <label class="toggle-wrap"><input type="checkbox" id="pit-defense"><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
                         </div>
                             <div class="scout-field scout-field--full" style="padding-bottom: 1.5rem;">
                             <label class="scout-label">Robot Reliability (1-10)</label>
@@ -173,43 +172,59 @@ async function renderScoutForm() {
                 </div>
 
                 <div class="scout-section">
-                    <div class="scout-section-label">On-The-Fly Performance</div>
+                    <div class="scout-section-label">Auto</div>
                     <div class="scout-fields">
+                        
                         <div class="scout-field">
-                            <label class="scout-label">Auto Path Location</label>
+                            <label class="scout-label">Auto Start Location</label>
                             <select class="scout-select" id="stands-auto-path" required>
-                                <option value="">Select...</option><option value="Mid">Mid</option><option value="Depot">Depot</option><option value="Human Player">Human Player</option><option value="Climb">Climb</option>
+                                <option value="">Select...</option><option value="Center">Center</option><option value="Depot Side">Depot Side</option><option value="Human Player Side">Human Player Side</option>
+                            </select>
+                        </div>
+                        <div class="scout-field">
+                            <label class="scout-label">Where do they go in auto?</label>
+                            <select class="scout-select" id="stands-auto-path" required>
+                                <option value="">Select...</option><option value="Mid">Mid</option><option value="Depot">Depot</option><option value="Human Player">Human Player</option><option value="Climb">Climb</option><option value="Just Shoot">Just Shoot</option><option value="None">None</option>
                             </select>
                         </div>
                         <div class="scout-field scout-field--checkbox">
                             <label class="scout-label">Auto Successful?</label>
                             <label class="toggle-wrap"><input type="checkbox" id="stands-auto-success"><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
                         </div>
-                        
-                        <div class="scout-field"><label class="scout-label">Total Cycles</label><input class="scout-input" type="number" id="stands-cycles" required min="0"></div>
-                        
-                        <div class="scout-field"><label class="scout-label">Did they Climb?</label>
-                            <label class="toggle-wrap">
-                                <select class="scout-select" id="stands-climb" required>
-                                    <option value="">Select...</option><option value="L1">L1</option><option value="L2">L2</option><option value="L3">L3</option><option value="No">No</option>
-                                </select>
-                        </div>
+                    </div>
+                </div>
 
-                        <div class="scout-field scout-field--full" style="padding-bottom: 1.5rem;">
-                            <label class="scout-label">Shot Consistency (1-10)</label>
-                            <div style="display: flex; gap: 1.5rem; align-items: center; margin-top: 0.5rem;">
-                                <input type="range" id="stands-shot-consist" min="1" max="10" value="5" style="flex: 1; cursor: pointer;">
-                                <span id="stands-shot-val" class="mono" style="font-size: 1.2rem; font-weight: 600; color: var(--orange);">5</span>
+                <div class="scout-section">
+                    <div class="scout-section-label">Teleop</div>
+                        <div class="scout-fields">
+                            <div class="scout-field"><label class="scout-label">Did they Climb?</label>
+                                <label class="toggle-wrap">
+                                    <select class="scout-select" id="stands-climb" required>
+                                        <option value="">Select...</option><option value="L1">L1</option><option value="L2">L2</option><option value="L3">L3</option><option value="No">No</option>
+                                    </select>
+                            </div>
+
+                            <div class="scout-field scout-field--checkbox">
+                                <label class="scout-label">Did they play defense?</label>
+                                <label class="toggle-wrap"><input type="checkbox" id="stands-defense"><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+                            </div>
+
+                            <div class="scout-field scout-field--checkbox">
+                                <label class="scout-label">Did they break down?</label>
+                                <label class="toggle-wrap"><input type="checkbox" id="stands-reliability"><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
+                            </div>
+
+                            <div class="scout-field"><label class="scout-label">Total Cycles</label><input class="scout-input" type="number" id="stands-cycles" required min="0"></div>
+
+
+                            <div class="scout-field scout-field--full" style="padding-bottom: 1.5rem;">
+                                <label class="scout-label">Shot Consistency (1-10)</label>
+                                <div style="display: flex; gap: 1.5rem; align-items: center; margin-top: 0.5rem;">
+                                    <input type="range" id="stands-shot-consist" min="1" max="10" value="5" style="flex: 1; cursor: pointer;">
+                                    <span id="stands-shot-val" class="mono" style="font-size: 1.2rem; font-weight: 600; color: var(--orange);">5</span>
+                                </div>
                             </div>
                         </div>
-                        
-
-                        <div class="scout-field scout-field--checkbox">
-                            <label class="scout-label">Did they play defense?</label>
-                            <label class="toggle-wrap"><input type="checkbox" id="stands-defense"><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
-                            <label class="scout-label">Did they play break down?</label>
-                            <label class="toggle-wrap"><input type="checkbox" id="stands-reliability"><span class="toggle-track"><span class="toggle-thumb"></span></span></label>
-                 </div>
                     </div>
                 </div>
 
