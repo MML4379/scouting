@@ -26,12 +26,18 @@
     box-sizing: border-box;
 }
 
+html {
+    overflow-x: hidden;
+}
+
 body, .app {
     margin: 0;
     padding: 0;
     background: var(--background);
     color: var(--foreground);
     min-height: 100vh;
+    overflow-x: hidden;
+    max-width: 100%;
 }
 
 /* ════════════════════════════════════════════
@@ -94,8 +100,11 @@ body, .app {
 .page {
     padding: 1.5rem 1rem;
     max-width: 1300px;
+    width: 100%;
     margin: 0 auto;
     animation: fadeIn 0.25s ease both;
+    /* prevent any child from punching out the side */
+    overflow-x: hidden;
 }
 
 .page-header { margin-bottom: 1.25rem; }
@@ -209,7 +218,7 @@ body, .app {
     border-radius: 6px;
     color: var(--foreground);
     font-family: 'DM Sans', sans-serif;
-    font-size: 0.875rem;
+    font-size: 16px; /* prevents iOS zoom */
     outline: none;
     transition: border-color 0.15s;
 }
@@ -520,12 +529,12 @@ body, .app {
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
-    max-width: 760px;
+    max-width: min(760px, 100%);
 }
 
 .scout-meta-bar {
     display: grid;
-    grid-template-columns: 2fr 1fr 1.5fr;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 140px), 1fr));
     gap: 0.75rem;
     background: var(--surface);
     border: 1px solid var(--border);
@@ -559,7 +568,7 @@ body, .app {
 
 .scout-fields {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 160px), 1fr));
     gap: 0;
 }
 
@@ -671,10 +680,11 @@ body, .app {
 /* ════════════════════════════════════════════
    TOGGLE
    ════════════════════════════════════════════ */
+/* Toggle always stacks label on top, control below — never side by side */
 .scout-field--checkbox {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
 }
 
 .toggle-wrap {
@@ -682,8 +692,7 @@ body, .app {
     cursor: pointer;
     display: inline-flex;
     align-items: center;
-    /* Ensure at least 44px tap target */
-    min-height: 44px;
+    padding: 0.35rem 0; /* vertical breathing room without bloating the row */
 }
 
 .toggle-wrap input[type="checkbox"] {
@@ -993,7 +1002,6 @@ body, .app {
         height: 52px;
     }
 
-    /* Keep brand visible but smaller */
     .navbar-brand { font-size: 0.9rem; }
 
     .navbar a:not(.navbar-brand) {
@@ -1003,21 +1011,26 @@ body, .app {
 
     .page { padding: 1rem 0.875rem; }
 
-    /* Stack meta bar to two columns */
+    /* Meta bar: two columns, then single if still tight */
     .scout-meta-bar {
         grid-template-columns: 1fr 1fr;
+        padding: 0.875rem 1rem;
     }
 
-    /* Fewer scout-field columns on small screens */
+    /* Scout fields: force single column so counters/toggles never clip */
     .scout-fields {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
     }
 
-    /* Toast: full-width at bottom */
-    .scout-toast {
-        left: 0.75rem;
-        right: 0.75rem;
-        bottom: 0.875rem;
+    /* All field borders clean up in single-column mode */
+    .scout-field {
+        border-right: none;
+    }
+
+    /* Counter: ensure it fits and has good tap targets */
+    .counter-btn {
+        min-width: 48px;
+        min-height: 48px;
     }
 
     /* Match grid: single column */
@@ -1025,7 +1038,7 @@ body, .app {
         grid-template-columns: 1fr;
     }
 
-    /* Scout actions: full width */
+    /* Scout actions: full width, stacked */
     .scout-actions {
         flex-direction: column-reverse;
     }
@@ -1058,4 +1071,27 @@ body, .app {
         flex-direction: column;
         gap: 0.75rem;
     }
+
+    /* Toast: full-width at bottom */
+    .scout-toast {
+        left: 0.75rem;
+        right: 0.75rem;
+        bottom: 0.875rem;
+    }
+
+    /* Table: ensure horizontal scroll is contained, not page-level */
+    .table-wrap {
+        max-height: calc(100svh - 52px - 3.5rem);
+    }
+}
+
+/* Extra-small phones (< 390px) */
+@media (max-width: 390px) {
+    .navbar-brand { display: none; }
+
+    .scout-meta-bar {
+        grid-template-columns: 1fr;
+    }
+
+    .page { padding: 0.875rem 0.75rem; }
 }
