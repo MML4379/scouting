@@ -444,7 +444,7 @@ function bindForm() {
         try {
             if (isResubmit) {
                 const { data: existing, error: fetchErr } = await supabase
-                    .from(eventId).select("*").eq("Team Number", teamNum).single();
+                    .from(`${eventId}-pit`).select("*").eq("Team Number", teamNum).single();
                 if (fetchErr) throw new Error(`Could not find team ${teamNum} in table ${eventId} to resubmit.`);
 
                 const existingScouters = existing.Scouters ? existing.Scouters.split(", ") : [];
@@ -457,7 +457,7 @@ function bindForm() {
                 alert("Pit resubmission successful!");
             } else {
                 payload.Scouters = scouter;
-                const { error: inErr } = await supabase.from(eventId).insert([payload]);
+                const { error: inErr } = await supabase.from(`${eventId}-pit`).insert([payload]);
                 if (inErr) throw inErr;
                 alert("New pit entry saved!");
             }
@@ -505,7 +505,7 @@ function bindForm() {
         };
 
         try {
-            const { error: inErr } = await supabase.from(eventId).insert([payload]);
+            const { error: inErr } = await supabase.from(`${eventId}-stands`).insert([payload]);
             if (inErr) throw inErr;
             alert(`Match ${matchStr} data saved successfully!`);
 
