@@ -445,6 +445,7 @@ function bindForm() {
 
         const eventId  = document.getElementById("stands-event-id").value;
         const matchStr = `${document.getElementById("stands-match-type").value}${document.getElementById("stands-match-num").value}`;
+        const climbVal = document.getElementById("stands-climb").value;
 
         const payload = {
             "Team Number":     parseInt(document.getElementById("stands-team-num").value),
@@ -454,7 +455,8 @@ function bindForm() {
             "Auto End":        document.getElementById("stands-auto-end").value,
             "Auto Success":    document.getElementById("stands-auto-success").checked,
             "Cycles":          parseInt(document.getElementById("stands-cycles").value),
-            "Climb":           document.getElementById("stands-climb").value,
+            "Climb":           climbVal,
+            "Climbed?":        ["L1", "L2", "L3"].includes(climbVal), // Logic added here
             "Defended?":       document.getElementById("stands-defended").checked,
             "Broke Down?":     document.getElementById("stands-broke-down").checked,
             "Shot Consistency": parseInt(document.getElementById("stands-shot-consist").value),
