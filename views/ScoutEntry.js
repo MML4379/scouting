@@ -418,7 +418,7 @@ function bindForm() {
                 alert("Pit resubmission successful!");
             } else {
                 payload.Scouters = scouter;
-                const { error: inErr } = await supabase.from(`${eventId}-pit`).upsert([payload]);
+                const { error: inErr } = await supabase.from(`${eventId}-pit`).insert([payload]);
                 if (inErr) throw inErr;
                 alert("New pit entry saved!");
             }
@@ -463,7 +463,7 @@ function bindForm() {
         };
 
         try {
-            const { error: inErr } = await supabase.from(`${eventId}-stands`).upsert([payload]);
+            const { error: inErr } = await supabase.from(`${eventId}-stands`).insert([payload]);
             if (inErr) throw inErr;
             alert(`Match ${matchStr} data saved successfully!`);
 
