@@ -32,15 +32,7 @@ async function renderScoutForm() {
                 </div>
             </div>
 
-            <!-- ══════════════ PIT FORM ══════════════ -->
-            <!-- Pit CSV columns:
-                 Team Number, Team Name, Team Location, Robot Name, Drive Train,
-                 Fire Rate (Ball/Second), Ball Capacity, Intake Type, Pick Up Method,
-                 Cycles, L1, L2, L3, Auton Climb, Time to Climb, Climb Area,
-                 Pref Start Spot, Driver Exp, Defense?
-            -->
             <form id="form-pit" class="scout-form" style="margin-top: 1.5rem; display: flex;">
-
                 <div class="scout-meta-bar">
                     <div class="scout-meta-field">
                         <label class="scout-label">Event</label>
@@ -62,7 +54,6 @@ async function renderScoutForm() {
                     </div>
                 </div>
 
-                <!-- Team Info -->
                 <div class="scout-section">
                     <div class="scout-section-label">Team Info</div>
                     <div class="scout-fields">
@@ -85,7 +76,6 @@ async function renderScoutForm() {
                     </div>
                 </div>
 
-                <!-- Robot Capabilities -->
                 <div class="scout-section">
                     <div class="scout-section-label">Robot Capabilities</div>
                     <div class="scout-fields">
@@ -135,7 +125,6 @@ async function renderScoutForm() {
                     </div>
                 </div>
 
-                <!-- Climb & Auton -->
                 <div class="scout-section">
                     <div class="scout-section-label">Climb &amp; Auton</div>
                     <div class="scout-fields">
@@ -186,7 +175,6 @@ async function renderScoutForm() {
                     </div>
                 </div>
 
-                <!-- Experience & Strategy -->
                 <div class="scout-section">
                     <div class="scout-section-label">Experience &amp; Strategy</div>
                     <div class="scout-fields">
@@ -224,14 +212,7 @@ async function renderScoutForm() {
                 <button type="submit" class="btn btn-primary" id="btn-submit-pit" style="margin-top: 1rem;">Submit Pit Data</button>
             </form>
 
-            <!-- ══════════════ STANDS FORM ══════════════ -->
-            <!-- Stands CSV columns:
-                 Team Number, Match, Scouters, Auto Start, Auto End, Auto Success,
-                 Cycles, Shot Consistency, Stands Climb, Cycles Per Match,
-                 Climbed?, Defended?, Broke Down?, Shot Consistency
-            -->
             <form id="form-stands" class="scout-form" style="margin-top: 1.5rem; display: none;">
-
                 <div class="scout-meta-bar">
                     <div class="scout-meta-field">
                         <label class="scout-label">Event</label>
@@ -246,7 +227,6 @@ async function renderScoutForm() {
                     </div>
                 </div>
 
-                <!-- Match Details -->
                 <div class="scout-section">
                     <div class="scout-section-label">Match Details</div>
                     <div class="scout-fields">
@@ -270,7 +250,6 @@ async function renderScoutForm() {
                     </div>
                 </div>
 
-                <!-- Auto -->
                 <div class="scout-section">
                     <div class="scout-section-label">Auto</div>
                     <div class="scout-fields">
@@ -305,7 +284,6 @@ async function renderScoutForm() {
                     </div>
                 </div>
 
-                <!-- Teleop -->
                 <div class="scout-section">
                     <div class="scout-section-label">Teleop</div>
                     <div class="scout-fields">
@@ -314,11 +292,7 @@ async function renderScoutForm() {
                             <input class="scout-input" type="number" id="stands-cycles" required min="0">
                         </div>
                         <div class="scout-field">
-                            <label class="scout-label">Cycles Per Match</label>
-                            <input class="scout-input" type="number" id="stands-cycles-per-match" required min="0">
-                        </div>
-                        <div class="scout-field">
-                            <label class="scout-label">Stands Climb</label>
+                            <label class="scout-label">Climb</label>
                             <select class="scout-select" id="stands-climb" required>
                                 <option value="">Select...</option>
                                 <option value="L1">L1</option>
@@ -326,13 +300,6 @@ async function renderScoutForm() {
                                 <option value="L3">L3</option>
                                 <option value="No">No</option>
                             </select>
-                        </div>
-                        <div class="scout-field scout-field--checkbox">
-                            <label class="scout-label">Climbed?</label>
-                            <label class="toggle-wrap">
-                                <input type="checkbox" id="stands-climbed">
-                                <span class="toggle-track"><span class="toggle-thumb"></span></span>
-                            </label>
                         </div>
                         <div class="scout-field scout-field--checkbox">
                             <label class="scout-label">Defended?</label>
@@ -365,7 +332,6 @@ async function renderScoutForm() {
 }
 
 function bindForm() {
-    // ── Tab switching ──────────────────────────────
     const tabPit    = document.getElementById("tab-pit");
     const tabStands = document.getElementById("tab-stands");
     const formPit   = document.getElementById("form-pit");
@@ -385,12 +351,10 @@ function bindForm() {
         formPit.style.display = "none";
     });
 
-    // ── Slider sync ───────────────────────────────
     const shotSlider    = document.getElementById("stands-shot-consist");
     const shotSliderVal = document.getElementById("stands-shot-val");
     shotSlider.addEventListener("input", (e) => { shotSliderVal.textContent = e.target.value; });
 
-    // ── Pit: resubmission toggle ──────────────────
     const resubmitToggle = document.getElementById("pit-is-resubmit");
     const reqFields = document.querySelectorAll(".req-pit");
 
@@ -398,7 +362,6 @@ function bindForm() {
         reqFields.forEach(f => { f.required = !e.target.checked; });
     });
 
-    // ── Pit submit ────────────────────────────────
     formPit.addEventListener("submit", async (e) => {
         e.preventDefault();
         const btn = document.getElementById("btn-submit-pit");
@@ -415,7 +378,6 @@ function bindForm() {
             return v === "" ? null : v;
         };
 
-        // Keys match pit CSV columns exactly
         let payload = {
             "Team Number":           teamNum,
             "Team Name":             getVal("pit-team-name"),
@@ -438,7 +400,6 @@ function bindForm() {
             "Defense?":              document.getElementById("pit-defense").checked,
         };
 
-        // Strip nulls from payload
         Object.keys(payload).forEach(k => { if (payload[k] === null) delete payload[k]; });
 
         try {
@@ -452,7 +413,7 @@ function bindForm() {
                 payload.Scouters = existingScouters.join(", ");
 
                 const { error: upErr } = await supabase
-                    .from(eventId).update(payload).eq("Team Number", teamNum);
+                    .from(`${eventId}-pit`).update(payload).eq("Team Number", teamNum);
                 if (upErr) throw upErr;
                 alert("Pit resubmission successful!");
             } else {
@@ -462,7 +423,6 @@ function bindForm() {
                 alert("New pit entry saved!");
             }
 
-            // Reset but keep event + scouter
             const cachedEvent   = document.getElementById("pit-event-id").value;
             const cachedScouter = document.getElementById("pit-scouter").value;
             formPit.reset();
@@ -477,7 +437,6 @@ function bindForm() {
         }
     });
 
-    // ── Stands submit ─────────────────────────────
     formStands.addEventListener("submit", async (e) => {
         e.preventDefault();
         const btn = document.getElementById("btn-submit-stands");
@@ -487,7 +446,6 @@ function bindForm() {
         const eventId  = document.getElementById("stands-event-id").value;
         const matchStr = `${document.getElementById("stands-match-type").value}${document.getElementById("stands-match-num").value}`;
 
-        // Keys match stands CSV columns exactly
         const payload = {
             "Team Number":     parseInt(document.getElementById("stands-team-num").value),
             "Match":           matchStr,
@@ -496,9 +454,7 @@ function bindForm() {
             "Auto End":        document.getElementById("stands-auto-end").value,
             "Auto Success":    document.getElementById("stands-auto-success").checked,
             "Cycles":          parseInt(document.getElementById("stands-cycles").value),
-            "Cycles Per Match": parseInt(document.getElementById("stands-cycles-per-match").value),
-            "Stands Climb":    document.getElementById("stands-climb").value,
-            "Climbed?":        document.getElementById("stands-climbed").checked,
+            "Climb":           document.getElementById("stands-climb").value,
             "Defended?":       document.getElementById("stands-defended").checked,
             "Broke Down?":     document.getElementById("stands-broke-down").checked,
             "Shot Consistency": parseInt(document.getElementById("stands-shot-consist").value),
@@ -509,7 +465,6 @@ function bindForm() {
             if (inErr) throw inErr;
             alert(`Match ${matchStr} data saved successfully!`);
 
-            // Reset but keep event, scouter, match type
             const cachedEvent   = document.getElementById("stands-event-id").value;
             const cachedScouter = document.getElementById("stands-scouter").value;
             const cachedType    = document.getElementById("stands-match-type").value;
