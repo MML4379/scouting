@@ -1,5 +1,5 @@
 import { supabase } from "../app.js";
-import Auth from "../components/Auth.js";
+import Auth from "../../components/Auth.js";
 
 const TBA_KEY = "0n75QTuNDDuPGQ42UG8GDbxmVlPGtCMnd67fSCcH04AgVMSWwgJPCdtRwjiKYO9b";
 const TEAM = "frc7250";
