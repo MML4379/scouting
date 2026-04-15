@@ -8,4 +8,4 @@ firestore.indexes.json
 firebase.json
 /.firebase
 .firebaserc
-firebase.js
+public/firebase.js
